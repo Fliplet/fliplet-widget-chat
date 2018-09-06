@@ -4,6 +4,7 @@ var organizationId = Fliplet.Env.get('organizationId');
 var widgetId = Fliplet.Widget.getDefaultId();
 var allDataSources = [];
 
+// This is no longer necessary
 $(document).on('change', '.hidden-select', function(){
   var selectedValue = $(this).val();
   var selectedText = $(this).find("option:selected").text();
@@ -12,45 +13,23 @@ $(document).on('change', '.hidden-select', function(){
 
 var $dataSources = $('[name="dataSource"]');
 var $emailAddress = $('[name="emailAddress"]');
+var $firstName = $('[name="firstName"]');
+var $lastName = $('[name="lastName"]');
 var $fullName = $('[name="fullName"]');
 var $avatar = $('[name="avatar"]');
+var $titleName = $('[name="titleName"]');
 
 // Set link action to screen by default
-if (!data.contactLinkAction) {
-  data.contactLinkAction = {
-    action: 'screen',
-    page: '',
-    transition: 'slide.left',
-    options: {
-      hideAction: true
-    }
-  };
-}
 if (!data.securityLinkAction) {
   data.securityLinkAction = {
     action: 'screen',
     page: '',
-    transition: 'slide.left',
+    transition: 'fade',
     options: {
       hideAction: true
     }
   };
 }
-
-var linkDirectoryProvider = Fliplet.Widget.open('com.fliplet.link', {
-  // If provided, the iframe will be appended here,
-  // otherwise will be displayed as a full-size iframe overlay
-  selector: '#contact-directory',
-  // Also send the data I have locally, so that
-  // the interface gets repopulated with the same stuff
-  data: data.contactLinkAction,
-  // Events fired from the provider
-  onEvent: function (event, data) {
-    if (event === 'interface-validate') {
-      Fliplet.Widget.toggleSaveButton(data.isValid === true);
-    }
-  }
-});
 
 var linkSecurityProvider = Fliplet.Widget.open('com.fliplet.link', {
   // If provided, the iframe will be appended here,
@@ -62,14 +41,12 @@ var linkSecurityProvider = Fliplet.Widget.open('com.fliplet.link', {
   // Events fired from the provider
   onEvent: function (event, data) {
     if (event === 'interface-validate') {
+      // Why use data.isValid === true instead of just data.isValid or !!data.isValid?
       Fliplet.Widget.toggleSaveButton(data.isValid === true);
     }
   }
 });
 
-linkDirectoryProvider.then(function (result) {
-  data.contactLinkAction = result.data;
-});
 linkSecurityProvider.then(function (result) {
   data.securityLinkAction = result.data;
   save(true);
@@ -77,29 +54,40 @@ linkSecurityProvider.then(function (result) {
 
 $('form').submit(function (event) {
   event.preventDefault();
-  linkDirectoryProvider.forwardSaveRequest();
   linkSecurityProvider.forwardSaveRequest();
 });
 
 $('#manage-data').on('click', manageAppData);
+
+$('#show-seperate-name-fields').on('click', function() {
+  $('.full-name-field').addClass('hidden');
+  $('.first-last-names-holder').removeClass('hidden');
+});
+
+$('#show-full-name-field').on('click', function() {
+  $('.full-name-field').removeClass('hidden');
+  $('.first-last-names-holder').addClass('hidden');
+});
 
 // Fired from Fliplet Studio when the external save button is clicked
 Fliplet.Widget.onSaveRequest(function () {
   $('form').submit();
 });
 
-$dataSources.on( 'change', function() {
+$dataSources.on('change', function() {
   var selectedDataSourceId = $(this).val();
   if (selectedDataSourceId === 'none') {
     $('#manage-data').addClass('hidden');
     $('.column-selection').removeClass('show');
     return;
   }
+
   if (selectedDataSourceId === 'new') {
     $('#manage-data').addClass('hidden');
     createDataSource();
     return;
   }
+
   $('.column-selection').addClass('show');
   getColumns(selectedDataSourceId);
 });
@@ -117,6 +105,9 @@ function save(notifyComplete) {
   data.dataSourceId = $dataSources.val();
   data.crossLoginColumnName = $emailAddress.val();
   data.fullNameColumnName = $fullName.val();
+  data.firstNameColumnName = $firstName.val();
+  data.lastNameColumnName = $lastName.val();
+  data.titleNameColumnName = $titleName.val();
   data.avatarColumnName = $avatar.val();
 
   Fliplet.Widget.save(data).then(function () {
@@ -130,20 +121,28 @@ function save(notifyComplete) {
 }
 
 function getColumns(dataSourceId) {
+  // Change this if-else the other way round and avoid using else so that there's less indentation
   if (dataSourceId && dataSourceId !== '') {
     $('#manage-data').removeClass('hidden');
 
     Fliplet.DataSources.getById(dataSourceId, {
       cache: false
     }).then(function (dataSource) {
+      // Prepare all the HTML so that the DOM is changed as little as possible. You should only need to call .html() once for each field
       $emailAddress.html('<option value="">-- Select a field</option>');
       $fullName.html('<option value="">-- Select a field</option>');
+      $firstName.html('<option value="">-- Select a field</option>');
+      $lastName.html('<option value="">-- Select a field</option>');
       $avatar.html('<option value="">-- Select a field</option>');
+      $titleName.html('<option value="">-- Select a field</option>');
 
       dataSource.columns.forEach(function (c) {
         $emailAddress.append('<option value="' + c + '">' + c + '</option>');
         $fullName.append('<option value="' + c + '">' + c + '</option>');
+        $firstName.append('<option value="' + c + '">' + c + '</option>');
+        $lastName.append('<option value="' + c + '">' + c + '</option>');
         $avatar.append('<option value="' + c + '">' + c + '</option>');
+        $titleName.append('<option value="' + c + '">' + c + '</option>');
       });
 
       if (data.crossLoginColumnName) {
@@ -152,17 +151,35 @@ function getColumns(dataSourceId) {
       if (data.fullNameColumnName) {
         $fullName.val(data.fullNameColumnName);
       }
+      if (data.firstNameColumnName) {
+        $firstName.val(data.firstNameColumnName);
+      }
+      if (data.lastNameColumnName) {
+        $lastName.val(data.lastNameColumnName);
+      }
       if (data.avatarColumnName) {
         $avatar.val(data.avatarColumnName);
       }
+      if (data.titleNameColumnName) {
+        $titleName.val(data.titleNameColumnName);
+      }
 
+      // These aren't necessary if they're only there to make sure the .select-value-proxy values are updated
       $emailAddress.trigger('change');
       $fullName.trigger('change');
+      $firstName.trigger('change');
+      $lastName.trigger('change');
       $avatar.trigger('change');
+      $titleName.trigger('change');
 
+      // $.fn.prop() should be used with true and false when setting values, e.g. $fields.prop('disabled', false). See http://api.jquery.com/prop/#prop2
+      // If you create a collection like $fields = $('[name="dataSource"], [name="emailAddress"]') etc. then you can do this all in one go like $fields.prop('disabled', '');
       $emailAddress.prop('disabled', '');
       $fullName.prop('disabled', '');
+      $firstName.prop('disabled', '');
+      $lastName.prop('disabled', '');
       $avatar.prop('disabled', '');
+      $titleName.prop('disabled', '');
     });
   } else {
     $('#manage-data').addClass('hidden');
