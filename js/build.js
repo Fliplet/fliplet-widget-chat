@@ -569,6 +569,16 @@ Fliplet.Widget.instance('chat', function (data) {
     var groupLabel = isChannel ? 'channel' : 'group';
     var isChannelOrGroup = isGroup || isChannel;
 
+    messages = _.filter(messages, function(message) {
+      if (message.data.conversationId === conversationId) {
+        _.remove(messagesIds, function(id) {
+          return id === message.id
+        });
+      }
+
+      return message.data.conversationId !== conversationId;
+    })
+
     Fliplet.UI.Actions({
       title: isChannelOrGroup
         ? ('Are you sure you want to leave this ' + groupLabel + '?')
