@@ -572,12 +572,12 @@ Fliplet.Widget.instance('chat', function (data) {
     messages = _.filter(messages, function(message) {
       if (message.data.conversationId === conversationId) {
         _.remove(messagesIds, function(id) {
-          return id === message.id
+          return id === message.id;
         });
       }
 
       return message.data.conversationId !== conversationId;
-    })
+    });
 
     Fliplet.UI.Actions({
       title: isChannelOrGroup
