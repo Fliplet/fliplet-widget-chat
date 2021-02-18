@@ -772,7 +772,8 @@ Fliplet.Widget.instance('chat', function (data) {
         closeContacts();
         scrollToMessageTs = 100;
         $messagesHolder.html(chatMessageGapTemplate());
-        viewConversation({ conversation: channel });
+        viewConversation(channel);
+
         toast.then(function (instance) {
           instance.dismiss();
         });
@@ -949,7 +950,7 @@ Fliplet.Widget.instance('chat', function (data) {
 
           scrollToMessageTs = 100;
           $messagesHolder.html(chatMessageGapTemplate());
-          viewConversation({ conversation: conversation });
+          viewConversation(conversation);
         }
       })
       .on('click', '.contacts-user-list .contact-card', function() {
@@ -1011,7 +1012,7 @@ Fliplet.Widget.instance('chat', function (data) {
         event.stopPropagation();
         toggleNotifications(currentConversation.id).then(function () {
           $messages.html('');
-          viewConversation({ conversation: currentConversation });
+          viewConversation(currentConversation);
         });
       })
       .on('touchstart', '.contact-card', function(event) {
@@ -2060,10 +2061,7 @@ Fliplet.Widget.instance('chat', function (data) {
         var newConversation = _.find(conversations, { id: conversation.id });
         scrollToMessageTs = 100;
         $messagesHolder.html(chatMessageGapTemplate());
-        viewConversation({
-          conversation: newConversation,
-          isNewConversation: true
-        });
+        viewConversation(newConversation);
       });
     }).catch(function(error) {
       $('.contacts-done-holder').removeClass('creating');
@@ -2306,14 +2304,14 @@ Fliplet.Widget.instance('chat', function (data) {
     }
   }
 
-  function viewConversation(options) {
+  function viewConversation(conversation) {
     $wrapper.addClass('chat-open');
-    openConversation(options.conversation.id);
+    openConversation(conversation.id);
 
-    if (options.conversation
-      && options.conversation.definition
-      && options.conversation.definition.group
-      && options.conversation.definition.group.readOnly) {
+    if (conversation
+      && conversation.definition
+      && conversation.definition.group
+      && conversation.definition.group.readOnly) {
       if (currentUser && currentUser.isAdmin && currentUser.isAdmin !== null) {
         $('.chat-area').removeClass('broadcasting');
       } else {
@@ -2322,13 +2320,13 @@ Fliplet.Widget.instance('chat', function (data) {
     } else {
       $('.chat-area').removeClass('broadcasting');
     }
-    currentConversation = options.conversation;
+    currentConversation = conversation;
 
-    var chatHeaderHTML = chatHeaderTemplate(options.conversation);
+    var chatHeaderHTML = chatHeaderTemplate(conversation);
     $wrapper.find('.chat-user-info').html(chatHeaderHTML);
-    if (options.conversation.isGroup) {
+    if (conversation.isGroup) {
       $wrapper.find('.chat-user-info').addClass('group');
-    } else if (options.conversation.isChannel) {
+    } else if (conversation.isChannel) {
       $wrapper.find('.chat-user-info').addClass('channel');
     } else {
       $wrapper.find('.chat-user-info').removeClass('group');
@@ -2336,18 +2334,18 @@ Fliplet.Widget.instance('chat', function (data) {
 
     $messages = $wrapper.find('[data-conversation-messages]');
 
-    var conversationMessages = _.filter(messages, { dataSourceId: options.conversation.id });
+    var conversationMessages = _.filter(messages, { dataSourceId: conversation.id });
 
     conversationMessages.forEach(function(message) {
-      if (options.conversation.isGroup) {
+      if (conversation.isGroup) {
         message.fromGroup = true;
       }
 
-      if (options.conversation.isChannel) {
+      if (conversation.isChannel) {
         message.fromChannel = true;
       }
 
-      if (!options.isNewConversation && (!message.isDeleted || message.deletedAt === null)) {
+      if (!message.isDeleted || message.deletedAt === null) {
         renderMessage(message);
       }
     });
@@ -2355,7 +2353,7 @@ Fliplet.Widget.instance('chat', function (data) {
     if (queue.getMessages().length) {
       setTimeout(function () {
         queue.getMessages().forEach(function (message) {
-          if (message.conversationId === options.conversation.id) {
+          if (message.conversationId === conversation.id) {
             renderQueueMessage(message);
           }
         });
@@ -2657,7 +2655,7 @@ Fliplet.Widget.instance('chat', function (data) {
                 notification.onclick = function() {
                   window.focus();
                   setTimeout(function() {
-                    viewConversation({ conversation: conversation });
+                    viewConversation(conversation);
                   }, 0);
                 };
               }
@@ -2742,7 +2740,7 @@ Fliplet.Widget.instance('chat', function (data) {
           var conversation = _.find(conversations, { id: parseInt(conversationId, 10) });
 
           if (conversation) {
-            viewConversation({ conversation: conversation });
+            viewConversation(conversation);
           }
 
           Fliplet.UI.Toast.dismiss();
