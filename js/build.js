@@ -633,21 +633,18 @@ Fliplet.Widget.instance('chat', function (data) {
       return Promise.reject('Conversation not found');
     }
 
-    return new Promise(function (resolve, reject) {
-      return Fliplet.UI.Actions({
-        title: 'Notification settings',
-        labels: [
-          {
-            label: conversation.isMuted ? 'Unmute' : 'Mute',
-            action: function () {
-              // Toggles muting
-              conversation.notifications[conversation.isMuted ? 'unmute' : 'mute']().then(function () {
-                resolve();
-              }).catch(reject);
-            }
+
+    return Fliplet.UI.Actions({
+      title: 'Notification settings',
+      labels: [
+        {
+          label: conversation.isMuted ? 'Unmute' : 'Mute',
+          action: function () {
+            // Toggles muting
+            conversation.notifications[conversation.isMuted ? 'unmute' : 'mute']()
           }
-        ]
-      });
+        }
+      ]
     });
   }
 
