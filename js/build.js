@@ -1,6 +1,3 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable no-extra-semi */
-/* eslint-disable no-lonely-if */
 /* Handlebars Helpers */
 Handlebars.registerHelper('formatMessage', function(text) {
   // User separate var lines ending in ; so that each line can be stepped over individually when necessary
@@ -266,7 +263,7 @@ Fliplet.Widget.instance('chat', function(data) {
     }
 
     $('.chat-card-holder').removeClass('open');
-    $('.chat-card-holder[data-conversation-id="'+ conversationId +'"]').addClass('open');
+    $('.chat-card-holder[data-conversation-id="' + conversationId + '"]').addClass('open');
   }
 
   function enterChatFullScreen() {
@@ -518,7 +515,6 @@ Fliplet.Widget.instance('chat', function(data) {
       body: text,
       isEdited: true
     }).then(function(newMessageFromDS) {
-      console.log('newMessageFromDS: ', newMessageFromDS);
       // Update message locally
       messages.forEach(function(obj, index) {
         if (obj.id === messageToEdit) {
@@ -1144,7 +1140,7 @@ Fliplet.Widget.instance('chat', function(data) {
           longPressed = true;
           $('.chat.tapped').not(parent).removeClass('tapped');
           parent.toggleClass('tapped');
-        },800);
+        }, 800);
 
         return;
       })
@@ -1323,8 +1319,6 @@ Fliplet.Widget.instance('chat', function(data) {
 
       if (iCurScrollPos < iScrollPos && iCurScrollPos < 250 && !loadMoreReqPromise) {
         loadMoreReqPromise = loadMoreMessagesForCurrentConversation(currentConversation).then(function(messages) {
-          console.log('messages: ', messages);
-
           if (!messages.length || messages.length < LOAD_MORE_MESSAGES_PAGE_SIZE) {
             return Promise.resolve();
           }
@@ -1489,8 +1483,6 @@ Fliplet.Widget.instance('chat', function(data) {
     context.drawImage(img, drawX, drawY, imgWidth, imgHeight);
   }
 
-  ;
-
   function resetImages() {
     fileImages = {};
     selectedFileInputName = null;
@@ -1582,8 +1574,6 @@ Fliplet.Widget.instance('chat', function(data) {
   }
 
   function gatherMessageInformation(text, files) {
-    console.log('sada');
-
     var messageData = {
       guid: Fliplet.guid(),
       body: text,

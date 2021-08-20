@@ -1,4 +1,4 @@
-/* eslint-disable padding-line-between-statements */
+
 var widgetId = Fliplet.Widget.getDefaultId();
 var data = Fliplet.Widget.getData() || {};
 var organizationId = Fliplet.Env.get('organizationId');
@@ -177,6 +177,7 @@ function generateColumns(dataSourceCoulumns) {
   if (data.lastNameColumnName) {
     $lastName.val(data.lastNameColumnName);
   }
+
   if (data.avatarColumnName) {
     $avatar.val(data.avatarColumnName);
   }
