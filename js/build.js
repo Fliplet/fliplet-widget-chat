@@ -124,10 +124,7 @@ Fliplet.Widget.instance('chat', function(data) {
   var scrollToMessageTimeout;
   var scrollToMessageTs = 0;
   var searchTimeout;
-  var messageClickTimeout = 0;
-  var messageClickTimeout, lockTimer;
   var longPressed = false;
-  var touchduration = 400;
   var SCROLL_TO_MESSAGE_SPEED = 200;
   var LOAD_MORE_MESSAGES_PAGE_SIZE = 50;
   var isActiveWindow = true;
@@ -1041,8 +1038,6 @@ Fliplet.Widget.instance('chat', function(data) {
         event.stopPropagation();
 
         var $cardHolder = $(this).parents('.chat-card').find('.chat-card-holder');
-        var isGroup = $cardHolder.hasClass('group');
-        var isChannel = $cardHolder.hasClass('channel');
         var conversationId = $cardHolder.data('conversation-id');
 
         toggleNotifications(conversationId).then(function() {
@@ -1174,7 +1169,6 @@ Fliplet.Widget.instance('chat', function(data) {
       })
       .on('click', '.delete-message', function() {
         var _this = this;
-        var deleteButton = $(this);
         var message = $(this).parents('.chat');
 
         if (!Fliplet.Navigator.isOnline()) {
@@ -1275,8 +1269,6 @@ Fliplet.Widget.instance('chat', function(data) {
 
           // Prevent any non-image file type from being read.
           if (!file.type.match(/image.*/)) {
-            console.warn('File is not an image: ', file.type);
-
             return;
           }
 
