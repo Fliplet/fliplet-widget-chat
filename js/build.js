@@ -1262,6 +1262,8 @@ Fliplet.Widget.instance('chat', function(data) {
 
           // Prevent any non-image file type from being read.
           if (!file.type.match(/image.*/)) {
+            console.warn('File is not an image: ', file.type);
+
             return;
           }
 
