@@ -1133,7 +1133,7 @@ Fliplet.Widget.instance('chat', function(data) {
         $('.chat.tapped').not(parent).removeClass('tapped');
         parent.toggleClass('tapped');
       })
-      .on('mousedown touchstart', '.chat-body', function(e) {
+      .on('mousedown touchstart', '.chat-body', function() {
         var parent = $(this).parents('.chat');
 
         pressTimer = setTimeout(function() {
@@ -1144,7 +1144,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
         return;
       })
-      .on('mouseup touchend touchcancel', '.chat-body', function(e) {
+      .on('mouseup touchend touchcancel', '.chat-body', function() {
         clearTimeout(pressTimer);
         setTimeout(function() {
           longPressed = false;
@@ -1275,7 +1275,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
           // Prevent any non-image file type from being read.
           if (!file.type.match(/image.*/)) {
-            return console.warn('File is not an image: ', file.type);
+            console.warn('File is not an image: ', file.type);
           }
 
           // In case it's an animated GIF
