@@ -44,21 +44,16 @@ Fliplet.Widget.instance('chat', function(data) {
   var PAN_WINDOW_FRACTION = 3;
   var ANIMATION_SPEED_SLOW = 200;
   var ANIMATION_SPEED_FAST = 100;
-  var TAP_MOVE_THRESHOLD = 20;
   var hammer;
   var $wrapper = $('.chat-holder');
   var $chatOverlay = $('.chat-area');
-  var $contactOverlay = $('.contacts-holder-overlay');
-  var $groupCreationOverlay = $('.group-name-holder');
   var $list = $('.chat-list');
   var $messagesHolder = $('.chat-messages-holder');
   var $messageArea = $('[data-message-body]');
   var $participantsList = $('.group-participants-list');
   var $messages;
   var $conversationsList = $wrapper.find('.chat-list');
-  var $loader = $('.chat-holder > .loading-area span');
   var listOffset;
-  var opacity = 0.3;
   var allowClick = true;
   var clipboardjs;
   var autosizeInit = false;
@@ -75,7 +70,6 @@ Fliplet.Widget.instance('chat', function(data) {
   }
 
   var pswpElement = document.querySelectorAll('.pswp')[0];
-  var galleries = {};
 
   // Public channels
   var fetchChatChannels;
@@ -124,10 +118,7 @@ Fliplet.Widget.instance('chat', function(data) {
   var scrollToMessageTimeout;
   var scrollToMessageTs = 0;
   var searchTimeout;
-  var messageClickTimeout = 0;
-  var messageClickTimeout, lockTimer;
   var longPressed = false;
-  var touchduration = 400;
   var SCROLL_TO_MESSAGE_SPEED = 200;
   var LOAD_MORE_MESSAGES_PAGE_SIZE = 50;
   var isActiveWindow = true;
@@ -371,7 +362,7 @@ Fliplet.Widget.instance('chat', function(data) {
     }
   }
 
-  function closeConversation(clickedChat) {
+  function closeConversation() {
     $wrapper.removeClass('chat-open');
     exitChatFullScreen();
     $('.long-pressed').removeClass('long-pressed');
@@ -452,7 +443,7 @@ Fliplet.Widget.instance('chat', function(data) {
     checkHowManySelected();
   }
 
-  function handleChannelSelection(element, selectedChannelInfo, channelId) {
+  function handleChannelSelection(element, selectedChannelInfo) {
     if (element.hasClass('contact-selected')) {
       channelsSelected = selectedChannelInfo;
     } else {
@@ -514,7 +505,7 @@ Fliplet.Widget.instance('chat', function(data) {
     chat.updateMessage(currentConversation.id, messageToEdit, {
       body: text,
       isEdited: true
-    }).then(function(newMessageFromDS) {
+    }).then(function() {
       // Update message locally
       messages.forEach(function(obj, index) {
         if (obj.id === messageToEdit) {
@@ -867,7 +858,6 @@ Fliplet.Widget.instance('chat', function(data) {
     var elementStartX;
     var totalMove;
     var totalActionsWidth;
-    var deviceEvents;
     var pressTimer;
     var startTouchEvent = Modernizr.touchevents ? 'touchstart' : 'mousedown';
     var endTouchEvent = Modernizr.touchevents ? 'touchend' : 'mouseup';
@@ -1041,8 +1031,6 @@ Fliplet.Widget.instance('chat', function(data) {
         event.stopPropagation();
 
         var $cardHolder = $(this).parents('.chat-card').find('.chat-card-holder');
-        var isGroup = $cardHolder.hasClass('group');
-        var isChannel = $cardHolder.hasClass('channel');
         var conversationId = $cardHolder.data('conversation-id');
 
         toggleNotifications(conversationId).then(function() {
@@ -1133,7 +1121,7 @@ Fliplet.Widget.instance('chat', function(data) {
         $('.chat.tapped').not(parent).removeClass('tapped');
         parent.toggleClass('tapped');
       })
-      .on('mousedown touchstart', '.chat-body', function(e) {
+      .on('mousedown touchstart', '.chat-body', function() {
         var parent = $(this).parents('.chat');
 
         pressTimer = setTimeout(function() {
@@ -1144,7 +1132,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
         return;
       })
-      .on('mouseup touchend touchcancel', '.chat-body', function(e) {
+      .on('mouseup touchend touchcancel', '.chat-body', function() {
         clearTimeout(pressTimer);
         setTimeout(function() {
           longPressed = false;
@@ -1174,7 +1162,6 @@ Fliplet.Widget.instance('chat', function(data) {
       })
       .on('click', '.delete-message', function() {
         var _this = this;
-        var deleteButton = $(this);
         var message = $(this).parents('.chat');
 
         if (!Fliplet.Navigator.isOnline()) {
@@ -1223,7 +1210,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
         sendMessage($(this));
       })
-      .on('keyup paste', '.search-holder input', function(e) {
+      .on('keyup paste', '.search-holder input', function() {
         var searchQuery = $(this).val().toLowerCase();
 
         $('.section-label-wrapper').addClass('is-searching');
@@ -1275,7 +1262,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
           // Prevent any non-image file type from being read.
           if (!file.type.match(/image.*/)) {
-            return console.warn('File is not an image: ', file.type);
+            return;
           }
 
           // In case it's an animated GIF
@@ -1314,7 +1301,7 @@ Fliplet.Widget.instance('chat', function(data) {
     var iScrollPos = 0;
     var loadMoreReqPromise;
 
-    $('.chat-messages-holder').on('scroll', function(event) {
+    $('.chat-messages-holder').on('scroll', function() {
       var iCurScrollPos = $(this).scrollTop();
 
       if (iCurScrollPos < iScrollPos && iCurScrollPos < 250 && !loadMoreReqPromise) {
@@ -1401,7 +1388,7 @@ Fliplet.Widget.instance('chat', function(data) {
       popoverOptions.height = boundingRect.height;
     }
 
-    navigator.camera.getPicture(onSelectedPicture, function getPictureSuccess(message) {
+    navigator.camera.getPicture(onSelectedPicture, function getPictureSuccess() {
       console.error('Error getting picture with navigator.camera.getPicture');
     }, {
       quality: jpegQuality,
@@ -1436,7 +1423,6 @@ Fliplet.Widget.instance('chat', function(data) {
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
 
-      var canvasRatio = canvasWidth / canvasHeight;
       var context = canvas.getContext('2d');
 
       context.clearRect(0, 0, canvas.width, canvas.height);
