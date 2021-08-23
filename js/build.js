@@ -514,7 +514,7 @@ Fliplet.Widget.instance('chat', function(data) {
     chat.updateMessage(currentConversation.id, messageToEdit, {
       body: text,
       isEdited: true
-    }).then(function(newMessageFromDS) {
+    }).then(function() {
       // Update message locally
       messages.forEach(function(obj, index) {
         if (obj.id === messageToEdit) {
@@ -1276,6 +1276,8 @@ Fliplet.Widget.instance('chat', function(data) {
           // Prevent any non-image file type from being read.
           if (!file.type.match(/image.*/)) {
             console.warn('File is not an image: ', file.type);
+
+            return;
           }
 
           // In case it's an animated GIF
