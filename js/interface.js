@@ -45,20 +45,20 @@ var linkSecurityProvider = Fliplet.Widget.open('com.fliplet.link', {
   // the interface gets repopulated with the same stuff
   data: data.securityLinkAction,
   // Events fired from the provider
-  onEvent: function (event, data) {
+  onEvent: function(event, data) {
     if (event === 'interface-validate') {
       Fliplet.Widget.toggleSaveButton(data.isValid);
     }
   }
 });
 
-linkSecurityProvider.then(function (result) {
+linkSecurityProvider.then(function(result) {
   data.securityLinkAction = result.data;
   data.securityLinkAction.omitPages = omitPages;
   save(true);
 });
 
-$('form').submit(function (event) {
+$('form').submit(function(event) {
   event.preventDefault();
   linkSecurityProvider.forwardSaveRequest();
 });
@@ -76,7 +76,7 @@ $('#show-full-name-field').on('click', function() {
 });
 
 // Fired from Fliplet Studio when the external save button is clicked
-Fliplet.Widget.onSaveRequest(function () {
+Fliplet.Widget.onSaveRequest(function() {
   dataSourceProvider.forwardSaveRequest();
 });
 
@@ -112,7 +112,7 @@ function initDataSourceProvider(currentDataSourceId) {
     }
   });
 
-  dataSourceProvider.then(dataSource => {
+  dataSourceProvider.then(function(dataSource) {
     data.dataSourceId = dataSource.data.id;
     $('form').submit();
   });
@@ -138,7 +138,7 @@ function save(notifyComplete) {
     data.primaryKey = data.crossLoginColumnName;
   }
 
-  Fliplet.Widget.save(data).then(function () {
+  Fliplet.Widget.save(data).then(function() {
     if (notifyComplete) {
       Fliplet.Widget.complete();
       window.location.reload();
@@ -155,7 +155,7 @@ function generateColumns(dataSourceCoulumns) {
     '<option value="none">-- Select a field</option>'
   ];
 
-  dataSourceCoulumns.forEach(function (c) {
+  dataSourceCoulumns.forEach(function(c) {
     options.push('<option value="' + c + '">' + c + '</option>');
   });
 
@@ -176,6 +176,7 @@ function generateColumns(dataSourceCoulumns) {
   if (data.lastNameColumnName) {
     $lastName.val(data.lastNameColumnName);
   }
+
   if (data.avatarColumnName) {
     $avatar.val(data.avatarColumnName);
   }

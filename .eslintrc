@@ -1,0 +1,23 @@
+{
+  "extends": "fliplet",
+  "root": true,
+  "globals": {
+    "interfaceBrowser": "readonly",
+    "buildBrowser": "readonly",
+    "interfaceUrl": "readonly",
+    "buildUrl": "readonly",
+    "widgetInstance": "readonly",
+    "buildSelector": "readonly",
+    "DynamicLists": "readonly",
+    "flListLayoutConfig": "readonly",
+    "Modernizr": "readonly",
+    "LikeButton": "readonly",
+    "Hammer": "readonly",
+    "CodeMirror": "readonly",
+    "autosize": "readonly",
+    "Raven": "readonly"
+  },
+  "rules": {
+    "no-eval": 0
+  }
+}
