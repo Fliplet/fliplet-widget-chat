@@ -566,6 +566,19 @@ Fliplet.Widget.instance('chat', function(data) {
     });
   }
 
+  function muteConversation(conversationId) {
+    toggleNotifications(conversationId).then(function() {
+      var conversation = _.find(conversations, function(c) { return c.id === conversationId; });
+
+      renderConversations(conversation, true);
+
+      if (currentConversation && conversation.id === currentConversation.id) {
+        $messagesHolder.html(chatMessageGapTemplate());
+        viewConversation(conversation);
+      }
+    });
+  }
+
   function deleteConversation(conversationId, userToRemove, isGroup, isChannel) {
     var groupLabel = isChannel ? 'channel' : 'group';
     var isChannelOrGroup = isGroup || isChannel;
@@ -1020,28 +1033,18 @@ Fliplet.Widget.instance('chat', function(data) {
             deleteConversation(conversationId, currentUserAllData, isGroup, isChannel);
             break;
           case 'mute':
-            toggleNotifications(conversationId).then(function() {
-              renderConversations(_.find(conversations, function(c) { return c.id === conversationId; }), true);
-            });
+            muteConversation(conversationId);
+            break;
+          default:
             break;
         }
       })
       .on('click', '.chat-back', closeConversation)
-      .on('click', '.icon-muted', function(event) {
-        event.stopPropagation();
-
-        var $cardHolder = $(this).parents('.chat-card').find('.chat-card-holder');
-        var conversationId = $cardHolder.data('conversation-id');
-
-        toggleNotifications(conversationId).then(function() {
-          renderConversations(_.find(conversations, function(c) { return c.id === conversationId; }), true);
-        });
-      })
       .on('click', '.chat-mute', function(event) {
         event.preventDefault();
         event.stopPropagation();
         toggleNotifications(currentConversation.id).then(function() {
-          $messages.html('');
+          $messages.html(chatMessageGapTemplate());
           viewConversation(currentConversation);
         });
       })

@@ -26,11 +26,6 @@
             \{{/with}}
           </div>
         </div>
-        \{{#if isMuted}}
-        <div class="icon">
-          <div class="icon icon-muted"><i class="fa fa-bell-slash"></i></div>
-        </div>
-        \{{/if}}
         <div class="icon icon-show-more">
           <div class="icon icon-compact"><i class="fa fa-ellipsis-v"></i></div>
         </div>
@@ -39,9 +34,9 @@
         <div class="actions">
           <div class="action" data-action="mute">
             \{{#if isMuted}}
-            <i class="fa fa-lg fa-bell-o"></i>
-            \{{else}}
             <i class="fa fa-lg fa-bell-slash-o"></i>
+            \{{else}}
+            <i class="fa fa-lg fa-bell-o"></i>
             \{{/if}}
           </div>
           <div class="action" data-action="delete">
