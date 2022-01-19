@@ -38,6 +38,7 @@
       "vendor/autosize.js",
       "vendor/load-image.all.min.js",
       "vendor/normalize.ie-polyfill.js",
+      "vendor/purify.min.js",      
       "js/build.templates.js",
       "js/queue.js",
       "js/build.js",
