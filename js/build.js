@@ -139,7 +139,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
   if (data.dataSourceId === 'none') {
     delete data.dataSourceId;
-    Fliplet.UI.Toast('Cannot connect to contact list. Please check it\'s configured correctly.');
+    Fliplet.UI.Toast(T('widgets.chat.errorToast.connectFailed'));
   }
 
   var securityScreenAction = data.securityLinkAction;
@@ -164,17 +164,19 @@ Fliplet.Widget.instance('chat', function(data) {
 
   if (Fliplet.Navigate.query.conversationId) {
     Fliplet.UI.Toast({
-      message: 'Opening channel...',
+      message: T('widgets.chat.channel.infoToast.openingChannel'),
       backdrop: true,
       duration: false
     });
   } else if (Fliplet.Navigate.query.contactConversation || Fliplet.Navigate.query.contactEmail) {
     Fliplet.UI.Toast({
-      message: 'Opening conversation...',
+      message: T('widgets.chat.conversation.infoToast.open'),
       backdrop: true,
       duration: false
     });
   }
+
+  $(this).translate();
 
   function panChat(e) {
     listOffset = listOffset || $list.offset().left;
@@ -288,7 +290,10 @@ Fliplet.Widget.instance('chat', function(data) {
 
   function openGroupCreationSettings() {
     checkGroupCanBeCreated();
-    $('.participant-count').text((isViewingChannels ? channelsSelected : contactsSelected).length);
+
+    var count = (isViewingChannels ? channelsSelected : contactsSelected).length;
+
+    $('.participant-count').text(TN(count));
 
     $wrapper.addClass('in-create-group');
   }
@@ -536,7 +541,7 @@ Fliplet.Widget.instance('chat', function(data) {
       $holder.removeClass('sending');
 
       Fliplet.UI.Toast.error(error, {
-        message: 'Error updating the message. Please try again.'
+        message: T('widgets.chat.message.errorToast.updateFailed')
       });
     });
   }
@@ -563,7 +568,7 @@ Fliplet.Widget.instance('chat', function(data) {
       });
     }).catch(function(error) {
       Fliplet.UI.Toast.error(error, {
-        message: 'Error deleting the message'
+        message: T('widgets.chat.message.errorToast.deleteFailed')
       });
     });
   }
@@ -597,21 +602,21 @@ Fliplet.Widget.instance('chat', function(data) {
 
     Fliplet.UI.Actions({
       title: isChannelOrGroup
-        ? ('Are you sure you want to leave this ' + groupLabel + '?')
-        : 'Are you sure you want to delete this conversation?',
+        ? T('widgets.chat.conversation.UIActions.leave.title', { label: groupLabel })
+        : T('widgets.chat.conversation.UIActions.delete.title'),
       labels: [{
-        label: isChannelOrGroup ? 'Leave' : 'Delete',
+        label: isChannelOrGroup ? T('widgets.chat.conversation.UIActions.leave.label') : T('widgets.chat.conversation.UIActions.delete.label'),
         action: function() {
           // Get the conversation
-          conversationToBeRemoved = _.find(conversations, { id: conversationId });
+          var conversationToBeRemoved = _.find(conversations, { id: conversationId });
 
           if (!conversationToBeRemoved) {
-            return Fliplet.UI.Toast.error('Conversation ' + conversationId + ' not found', {
-              message: isChannelOrGroup ? 'Error leaving conversation' : 'Error deleting conversation'
+            return Fliplet.UI.Toast.error(T('widgets.chat.conversation.errorToast.notFound.title', { conversationId: conversationId }), {
+              message: isChannelOrGroup ? T('widgets.chat.conversation.errorToast.leaveFailed') : T('widgets.chat.conversation.errorToast.deleteFailed')
             });
           }
 
-          Fliplet.UI.Toast(isChannelOrGroup ? 'Leaving conversation...' : 'Deleting conversation...');
+          Fliplet.UI.Toast(isChannelOrGroup ? T('widgets.chat.conversation.infoToast.leaving') : T('widgets.chat.conversation.infoToast.deleting'));
 
           // Remove current user from conversation
           return conversationToBeRemoved.participants.remove(userToRemove.id)
@@ -638,7 +643,7 @@ Fliplet.Widget.instance('chat', function(data) {
             })
             .catch(function(error) {
               Fliplet.UI.Toast.error(error, {
-                message: isChannelOrGroup ? 'Error leaving conversation' : 'Error deleting conversation'
+                message: isChannelOrGroup ?  T('widgets.chat.conversation.errorToast.leaveFailed') : T('widgets.chat.conversation.errorToast.deleteFailed')
               });
             });
         }
@@ -650,15 +655,15 @@ Fliplet.Widget.instance('chat', function(data) {
     var conversation = _.find(conversations, { id: conversationId });
 
     if (!conversation) {
-      return Promise.reject('Conversation not found');
+      return Promise.reject(T('widgets.chat.conversation.errors.notFound'));
     }
 
     return new Promise(function(resolve, reject) {
       return Fliplet.UI.Actions({
-        title: 'Notification settings',
+        title: T('widgets.chat.conversation.UIActions.settings.title'),
         labels: [
           {
-            label: conversation.isMuted ? 'Unmute' : 'Mute',
+            label: conversation.isMuted ? T('widgets.chat.conversation.UIActions.unmute.label') : T('widgets.chat.conversation.UIActions.mute.label'),
             action: function() {
               // Toggles muting
               conversation.notifications[conversation.isMuted ? 'unmute' : 'mute']().then(function() {
@@ -751,9 +756,9 @@ Fliplet.Widget.instance('chat', function(data) {
     $('.contacts-done-holder').addClass('creating');
 
     if (!Fliplet.Navigator.isOnline()) {
-      options = {
-        title: 'You are offline',
-        message: 'An internet connection is necessary to create a conversation or group.'
+      var options = {
+        title: T('widgets.chat.conversation.infoToast.offline.title'),
+        message: T('widgets.chat.conversation.infoToast.offline.message')
       };
 
       Fliplet.UI.Toast(options);
@@ -768,8 +773,8 @@ Fliplet.Widget.instance('chat', function(data) {
   function joinPublicChannel() {
     if (!Fliplet.Navigator.isOnline()) {
       Fliplet.UI.Toast({
-        title: 'You are offline',
-        message: 'An internet connection is necessary to join a public channel.'
+        title: T('widgets.chat.channel.infoToast.offline.title'),
+        message: T('widgets.chat.channel.infoToast.offline.message')
       });
 
       return;
@@ -779,12 +784,12 @@ Fliplet.Widget.instance('chat', function(data) {
       return;
     }
 
-    Fliplet.UI.Toast('Joining channel...');
+    Fliplet.UI.Toast(T('widgets.chat.channel.infoToast.joining'));
     $('.contacts-done-holder').addClass('creating');
 
     // Add current user to target public channel
     chat.channels.join(channelsSelected[0].id).then(function(channel) {
-      var toast = Fliplet.UI.Toast('Successfully joined channel');
+      var toast = Fliplet.UI.Toast(T('widgets.chat.channel.successToast.joinSuccess'));
 
       // refetch channels next time the view is opened
       fetchChatChannels = null;
@@ -823,9 +828,9 @@ Fliplet.Widget.instance('chat', function(data) {
     $('.contacts-done-holder').addClass('creating');
 
     if (!Fliplet.Navigator.isOnline()) {
-      options = {
-        title: 'You are offline',
-        message: 'An internet connection is necessary to create a conversation or group.'
+      var options = {
+        title: T('widgets.chat.conversation.infoToast.offline.title'),
+        message: T('widgets.chat.conversation.infoToast.offline.message')
       };
 
       Fliplet.UI.Toast(options);
@@ -845,9 +850,9 @@ Fliplet.Widget.instance('chat', function(data) {
     }
 
     if (!Fliplet.Navigator.isOnline()) {
-      options = {
-        title: 'You are offline',
-        message: 'An internet connection is necessary to create a conversation or group.'
+      var options = {
+        title: T('widgets.chat.conversation.infoToast.offline.title'),
+        message: T('widgets.chat.conversation.infoToast.offline.message')
       };
 
       Fliplet.UI.Toast(options);
@@ -920,12 +925,12 @@ Fliplet.Widget.instance('chat', function(data) {
 
     Fliplet.Navigator.onOffline(function() {
       $wrapper.addClass('offline');
-      Fliplet.UI.Toast('You are offline');
+      Fliplet.UI.Toast(T('widgets.chat.infoToast.offline'));
     });
 
     Fliplet.Navigator.onOnline(function() {
       $wrapper.removeClass('offline');
-      Fliplet.UI.Toast('You are back online');
+      Fliplet.UI.Toast(T('widgets.chat.infoToast.online'));
     });
 
     $(window).resize(function() {
@@ -1171,19 +1176,19 @@ Fliplet.Widget.instance('chat', function(data) {
 
         if (!Fliplet.Navigator.isOnline()) {
           Fliplet.UI.Toast({
-            title: 'You are offline',
-            message: 'An internet connection is necessary to delete a message.'
+            title: T('widgets.chat.message.infoToast.offline.title'),
+            message: T('widgets.chat.message.infoToast.offline.message')
           });
 
           return;
         }
 
         Fliplet.UI.Actions({
-          title: 'Are you sure you want to delete this message?',
+          title: T('widgets.chat.message.UIActions.delete.title'),
           labels: [{
-            label: 'Delete',
+            label: T('widgets.chat.message.UIActions.delete.label'),
             action: function() {
-              $(_this).find('span').text('Deleting...');
+              $(_this).find('span').text(T('widgets.chat.message.UIActions.delete.progress'));
 
               deleteMessage(message);
             }
@@ -1323,7 +1328,7 @@ Fliplet.Widget.instance('chat', function(data) {
         })
           .catch(function(error) {
             Fliplet.UI.Toast.error(error, {
-              message: 'Error loading more messages'
+              message: T('widgets.chat.message.errorToast.loadMoreFailed')
             });
           });
       }
@@ -1355,7 +1360,7 @@ Fliplet.Widget.instance('chat', function(data) {
       };
 
       navigator.notification.confirm(
-        'How do you want to choose your image?',
+        T('widgets.chat.profilePhoto.title'),
         function onSelectedImageMethod(button) {
           document.body.focus();
 
@@ -1374,7 +1379,8 @@ Fliplet.Widget.instance('chat', function(data) {
               return reject('Not implemented');
           }
         },
-        'Choose Image', ['Take Photo', 'Choose Existing Photo', 'Cancel']
+        T('widgets.chat.profilePhoto.instruction'),
+        [T('widgets.chat.profilePhoto.actions.take'), T('widgets.chat.profilePhoto.actions.chooseExisting'), T('widgets.chat.profilePhoto.actions.cancel')]
       );
     });
   }
@@ -1624,7 +1630,7 @@ Fliplet.Widget.instance('chat', function(data) {
     $holder.addClass('error');
 
     Fliplet.UI.Toast.error(error, {
-      message: 'Error loading data'
+      message: T('widgets.chat.errorToast.loadFailed')
     });
 
     setTimeout(function() {
@@ -2070,8 +2076,8 @@ Fliplet.Widget.instance('chat', function(data) {
 
       if (!userIds.length) {
         options = {
-          title: 'No group created',
-          message: 'We couldn\'t find any attendees.'
+          title: T('widgets.chat.group.noGroupCreated.title'),
+          message: T('widgets.chat.group.noGroupCreated.message.noAttendees')
         };
 
         Fliplet.Navigate.popup(options);
@@ -2090,8 +2096,8 @@ Fliplet.Widget.instance('chat', function(data) {
 
       if (!userIds.length) {
         options = {
-          title: 'No group created',
-          message: 'We couldn\'t find any speakers.'
+          title: T('widgets.chat.group.noGroupCreated.title'),
+          message: T('widgets.chat.group.noGroupCreated.message.noSpeakers')
         };
 
         Fliplet.Navigate.popup(options);
@@ -2110,8 +2116,8 @@ Fliplet.Widget.instance('chat', function(data) {
 
       if (!userIds.length) {
         options = {
-          title: 'No group created',
-          message: 'We couldn\'t find any administrators.'
+          title: T('widgets.chat.group.noGroupCreated.title'),
+          message: T('widgets.chat.group.noGroupCreated.message.noAdmins')
         };
 
         Fliplet.Navigate.popup(options);
@@ -2162,7 +2168,7 @@ Fliplet.Widget.instance('chat', function(data) {
       $('.contacts-done-holder').removeClass('creating');
 
       Fliplet.UI.Toast.error(error, {
-        message: 'Error creating conversation.'
+        message: T('widgets.chat.conversation.errorToast.createFailed')
       });
     });
   }
@@ -2302,12 +2308,7 @@ Fliplet.Widget.instance('chat', function(data) {
         conversation.isGroup = !conversation.isChannel && participants.length > 2;
         conversation.usersInConversation = conversationName;
         conversation.nParticipants = participants.length;
-        conversation.absoluteTime = moment(conversation.updatedAt).calendar(null, {
-          sameDay: '[Today]',
-          lastDay: '[Yesterday]',
-          lastWeek: '[Older]',
-          sameElse: '[Older]'
-        });
+        conversation.absoluteTime = TD(conversation.updatedAt, { format: 'fromNow' });
 
         var conversationMessages = _.filter(messages, { dataSourceId: conversation.id });
 
@@ -2401,7 +2402,7 @@ Fliplet.Widget.instance('chat', function(data) {
       return Promise.resolve(previousMessages);
     }).catch(function(error) {
       Fliplet.UI.Toast.error(error, {
-        message: 'Error loading messages'
+        message: T('widgets.chat.message.errorToast.loadFailed')
       });
     });
   }
@@ -2792,7 +2793,7 @@ Fliplet.Widget.instance('chat', function(data) {
 
   function getUserEmail() {
     if (!crossLoginColumnName) {
-      return Promise.reject('Cannot find user email. Please review feature configuration.');
+      return Promise.reject(T('widgets.chat.errors.userEmailNotFound'));
     }
 
     return Fliplet.App.Storage.get(CROSSLOGIN_EMAIL_KEY).then(function(email) {
@@ -2812,7 +2813,7 @@ Fliplet.Widget.instance('chat', function(data) {
         email = _.get(session, ['entries', 'dataSource', 'data', (options.crossLoginColumnName || crossLoginColumnName)]);
 
         if (!email) {
-          return Promise.reject('User email not found. Please make sure the user is logged in.');
+          return Promise.reject(T('widgets.chat.errors.emailNotFound'));
         }
 
         return email;
@@ -2862,7 +2863,7 @@ Fliplet.Widget.instance('chat', function(data) {
           });
 
           if (!user) {
-            Fliplet.UI.Toast.error('User is not found. Please check the contacts data source.');
+            Fliplet.UI.Toast.error(T('widgets.chat.errorToast.userNotFound'));
 
             return;
           }
@@ -2893,7 +2894,7 @@ Fliplet.Widget.instance('chat', function(data) {
           // Log in again if the token does not seem valid
           $wrapper.addClass('loading');
 
-          Fliplet.UI.Toast('Verifying your account...');
+          Fliplet.UI.Toast(T('widgets.chat.infoToast.verifying'));
 
           Fliplet.App.Storage.remove(USERTOKEN_STORAGE_KEY).then(function() {
             attemptLogin(false).then(function() {
@@ -2912,13 +2913,13 @@ Fliplet.Widget.instance('chat', function(data) {
       $wrapper.addClass('error');
 
       Fliplet.UI.Toast.error(error, {
-        message: 'Error logging in'
+        message: T('widgets.chat.errorToast.loginFailed')
       });
     });
   }
 
   function attemptLogin(offline) {
-    var notLoggedInErrorMessage = 'Please log in with your account to access the chat.';
+    var notLoggedInErrorMessage = T('widgets.chat.errors.unauthorized');
     var allowOffline = typeof offline === 'undefined' ? true : offline;
 
     var loginOp;
@@ -2966,7 +2967,7 @@ Fliplet.Widget.instance('chat', function(data) {
       $wrapper.addClass('error');
 
       Fliplet.UI.Toast.error(error, {
-        message: (Fliplet.Env.get('interact') ? 'Chat is not available in edit mode' : 'Error connecting you to chat')
+        message: (Fliplet.Env.get('interact') ? T('widgets.chat.errorToast.editNotAvailable') : T('widgets.chat.errorToast.connectFailed'))
       });
     });
   }

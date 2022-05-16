@@ -3,7 +3,17 @@ this["Fliplet"]["Widget"] = this["Fliplet"]["Widget"] || {};
 this["Fliplet"]["Widget"]["Templates"] = this["Fliplet"]["Widget"]["Templates"] || {};
 
 this["Fliplet"]["Widget"]["Templates"]["templates.admin-button-group"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"group-buttons-label\">\r\n  <p class=\"title\">Admin only groups</p>\r\n</div>\r\n<div class=\"group-buttons-holder\">\r\n  <div class=\"btn btn-create-group\" data-group=\"all\">All attendees</div>\r\n  <div class=\"btn btn-create-group\" data-group=\"speakers\">Speakers only</div>\r\n  <div class=\"btn btn-create-group\" data-group=\"admins\">Admins only</div>\r\n</div>";
+    var alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "<div class=\"group-buttons-label\">\r\n  <p class=\"title\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.adminButtonGroup.title",{"name":"T","hash":{},"data":data}))
+    + "</p>\r\n</div>\r\n<div class=\"group-buttons-holder\">\r\n  <div class=\"btn btn-create-group\" data-group=\"all\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.adminButtonGroup.actions.all",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n  <div class=\"btn btn-create-group\" data-group=\"speakers\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.adminButtonGroup.actions.speakers",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n  <div class=\"btn btn-create-group\" data-group=\"admins\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.adminButtonGroup.actions.admins",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n</div>\r\n";
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.chat-header"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -15,7 +25,19 @@ this["Fliplet"]["Widget"]["Templates"]["templates.contacts-list"] = Handlebars.t
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.conversation-content"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"offline-note\">Your device is offline</div>\r\n<div class=\"empty-area\"></div>\r\n<div class=\"msg-holder\">\r\n  <div class=\"profile-header\">\r\n    <div class=\"back-btn\">\r\n      <i class=\"fa fa-angle-left\"></i>\r\n    </div>\r\n    <div data-user-profile=\"{{ name }}\">\r\n      <div class=\"msg-user-avatar\">\r\n        <div class=\"image-holder\" style=\"background-image: url({{ auth avatar }})\"></div>\r\n        <i class=\"fa fa-user\"></i>\r\n      </div>\r\n      <span class=\"user-name\">{{ name }}</span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"msg-chats\" ontouchstart=\"\">\r\n    <button type=\"button\" class=\"btn btn-default load-more\" data-load-more>Load more</button>\r\n    <div class=\"chats\" data-conversation-messages></div>\r\n  </div>\r\n\r\n  <div class=\"input-holder\" data-new-message ontouchstart=\"\">\r\n    <div class=\"error-send\">Couldn't send your message. Try again!</div>\r\n    <div class=\"sending-to\">Send to: <strong>{{ name }}</strong></div>\r\n    <div class=\"message-input\">\r\n      <textarea class=\"form-control\" rows=\"1\" data-message-body></textarea>\r\n    </div>\r\n    <button class=\"message-input-btn btn btn-primary\" type=\"button\">\r\n      <span>Send <i class=\"fa fa-paper-plane\"></i></span>\r\n      <div class=\"loader\"><i class=\"fa fa-spinner\"></i></div>\r\n    </button>\r\n  </div>\r\n<div>\r\n";
+    var alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "<div class=\"offline-note\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.offline",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n<div class=\"empty-area\"></div>\r\n<div class=\"msg-holder\">\r\n  <div class=\"profile-header\">\r\n    <div class=\"back-btn\">\r\n      <i class=\"fa fa-angle-left\"></i>\r\n    </div>\r\n    <div data-user-profile=\"{{ name }}\">\r\n      <div class=\"msg-user-avatar\">\r\n        <div class=\"image-holder\" style=\"background-image: url({{ auth avatar }})\"></div>\r\n        <i class=\"fa fa-user\"></i>\r\n      </div>\r\n      <span class=\"user-name\">{{ name }}</span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"msg-chats\" ontouchstart=\"\">\r\n    <button type=\"button\" class=\"btn btn-default load-more\" data-load-more>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.actions.loadMore",{"name":"T","hash":{},"data":data}))
+    + "</button>\r\n    <div class=\"chats\" data-conversation-messages></div>\r\n  </div>\r\n\r\n  <div class=\"input-holder\" data-new-message ontouchstart=\"\">\r\n    <div class=\"error-send\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.errors.sendFailed",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n    <div class=\"sending-to\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.sendTo",{"name":"T","hash":{},"data":data}))
+    + ": <strong>{{ name }}</strong></div>\r\n    <div class=\"message-input\">\r\n      <textarea class=\"form-control\" rows=\"1\" data-message-body></textarea>\r\n    </div>\r\n    <button class=\"message-input-btn btn btn-primary\" type=\"button\">\r\n      <span>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.actions.send",{"name":"T","hash":{},"data":data}))
+    + " <i class=\"fa fa-paper-plane\"></i></span>\r\n      <div class=\"loader\"><i class=\"fa fa-spinner\"></i></div>\r\n    </button>\r\n  </div>\r\n<div>\r\n";
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.conversation-item"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -31,7 +53,13 @@ this["Fliplet"]["Widget"]["Templates"]["templates.group-contacts-template"] = Ha
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.group-tabs"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<section class=\"tab-group\">\r\n  <label class=\"tab\">\r\n    <input type=\"radio\" name=\"group-tabs\" value=\"\" checked=\"checked\" />\r\n    <span class=\"control-label\">Direct Messages</span>\r\n  </label>\r\n  <label class=\"tab\">\r\n    <input type=\"radio\" name=\"group-tabs\" value=\"1\" />\r\n    <span class=\"control-label\">Public Channels</span>\r\n  </label>\r\n</section>\r\n";
+    var alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "<section class=\"tab-group\">\r\n  <label class=\"tab\">\r\n    <input type=\"radio\" name=\"group-tabs\" value=\"\" checked=\"checked\" />\r\n    <span class=\"control-label\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.tabs.directMessages",{"name":"T","hash":{},"data":data}))
+    + "</span>\r\n  </label>\r\n  <label class=\"tab\">\r\n    <input type=\"radio\" name=\"group-tabs\" value=\"1\" />\r\n    <span class=\"control-label\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.tabs.publicChannels",{"name":"T","hash":{},"data":data}))
+    + "</span>\r\n  </label>\r\n</section>\r\n";
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.message-gap"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -39,11 +67,25 @@ this["Fliplet"]["Widget"]["Templates"]["templates.message-gap"] = Handlebars.tem
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.message-item"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"chat {{#if isFromCurrentUser}}chat-right{{else}}chat-left{{/if}}\" data-message-id=\"{{ id }}\">\r\n  <div class=\"message-hidden-controls\">\r\n    <div class=\"msg-time-holder\">\r\n      <div class=\"msg-time\">{{ timeAgo }}</div>\r\n    </div>\r\n    <div class=\"edit-message-control\">\r\n      <div class=\"edit-button copy-message\" data-clipboard-text=\"{{ message.body }}\">\r\n        <i class=\"fa fa-clone\"></i>\r\n        <span>Copy</span>\r\n      </div>\r\n      {{#if isFromCurrentUser}}\r\n      <div class=\"edit-button edit-message\">\r\n        <i class=\"fa fa-pencil\"></i>\r\n        <span>Edit</span>\r\n      </div>\r\n      <div class=\"edit-button delete-message\">\r\n        <i class=\"fa fa-trash-o\"></i>\r\n        <span>Delete</span>\r\n      </div>\r\n      {{/if}}\r\n    </div>\r\n  </div>\r\n  <div class=\"chat-body\">\r\n    {{#unless isFromCurrentUser}}\r\n      {{#if isFromGroup}}\r\n      <div class=\"chat-name\">{{ name }}</div>\r\n      {{/if}}\r\n      {{#if isFromChannel}}\r\n      <div class=\"chat-name\">{{ name }}</div>\r\n      {{/if}}\r\n    {{/unless}}\r\n    {{#if message.fileType}}\r\n    <div class=\"chat-image\" style=\"width: {{ containerWidth }}; height: {{ containerHeight }}\">\r\n      <div class=\"offline-image-holder hidden\"><span class=\"fa fa-picture-o\"></span> No internet</div>\r\n      <img src=\"{{ auth message.file.[0] }}\" width=\"{{ message.imageWidth }}\" height=\"{{ message.imageHeight }}\" />\r\n    </div>\r\n    {{/if}}\r\n    <div class=\"chat-text\">\r\n      {{ formatMessage message.body }}\r\n    </div>\r\n    {{#if message.isEdited}}\r\n      <div class=\"chat-edited\">Edited</div>\r\n    {{/if}}\r\n  </div>\r\n</div>\r\n";
+    var alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "<div class=\"chat {{#if isFromCurrentUser}}chat-right{{else}}chat-left{{/if}}\" data-message-id=\"{{ id }}\">\r\n  <div class=\"message-hidden-controls\">\r\n    <div class=\"msg-time-holder\">\r\n      <div class=\"msg-time\">{{ timeAgo }}</div>\r\n    </div>\r\n    <div class=\"edit-message-control\">\r\n      <div class=\"edit-button copy-message\" data-clipboard-text=\"{{ message.body }}\">\r\n        <i class=\"fa fa-clone\"></i>\r\n        <span>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.message.actions.copy",{"name":"T","hash":{},"data":data}))
+    + "</span>\r\n      </div>\r\n      {{#if isFromCurrentUser}}\r\n      <div class=\"edit-button edit-message\">\r\n        <i class=\"fa fa-pencil\"></i>\r\n        <span>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.message.actions.edit",{"name":"T","hash":{},"data":data}))
+    + "</span>\r\n      </div>\r\n      <div class=\"edit-button delete-message\">\r\n        <i class=\"fa fa-trash-o\"></i>\r\n        <span>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.message.actions.delete",{"name":"T","hash":{},"data":data}))
+    + "</span>\r\n      </div>\r\n      {{/if}}\r\n    </div>\r\n  </div>\r\n  <div class=\"chat-body\">\r\n    {{#unless isFromCurrentUser}}\r\n      {{#if isFromGroup}}\r\n      <div class=\"chat-name\">{{ name }}</div>\r\n      {{/if}}\r\n      {{#if isFromChannel}}\r\n      <div class=\"chat-name\">{{ name }}</div>\r\n      {{/if}}\r\n    {{/unless}}\r\n    {{#if message.fileType}}\r\n    <div class=\"chat-image\" style=\"width: {{ containerWidth }}; height: {{ containerHeight }}\">\r\n      <div class=\"offline-image-holder hidden\"><span class=\"fa fa-picture-o\"></span> "
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.message.errors.offline",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n      <img src=\"{{ auth message.file.[0] }}\" width=\"{{ message.imageWidth }}\" height=\"{{ message.imageHeight }}\" />\r\n    </div>\r\n    {{/if}}\r\n    <div class=\"chat-text\">\r\n      {{ formatMessage message.body }}\r\n    </div>\r\n    {{#if message.isEdited}}\r\n      <div class=\"chat-edited\">"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.message.editSuccess",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n    {{/if}}\r\n  </div>\r\n</div>\r\n";
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.message-queue"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"chat chat-right\" data-message-id=\"{{ id }}\">\r\n  <div class=\"sending-message-holder\">\r\n    <i class=\"fa fa-circle-o-notch fa-spin\"></i>\r\n  </div>\r\n  <div class=\"chat-body\">\r\n    {{#if message.fileType}}\r\n    <div class=\"chat-image\" style=\"width: {{ containerWidth }}; height: {{ containerHeight }}\">\r\n      <div class=\"offline-image-holder hidden\"><span class=\"fa fa-picture-o\"></span> No internet</div>\r\n      <img src=\"{{ auth message.file.[0] }}\" width=\"{{ message.imageWidth }}\" height=\"{{ message.imageHeight }}\" />\r\n    </div>\r\n    {{/if}}\r\n    <div class=\"chat-text\">\r\n      {{ formatMessage message.body }}\r\n    </div>\r\n  </div>\r\n</div>";
+    return "<div class=\"chat chat-right\" data-message-id=\"{{ id }}\">\r\n  <div class=\"sending-message-holder\">\r\n    <i class=\"fa fa-circle-o-notch fa-spin\"></i>\r\n  </div>\r\n  <div class=\"chat-body\">\r\n    {{#if message.fileType}}\r\n    <div class=\"chat-image\" style=\"width: {{ containerWidth }}; height: {{ containerHeight }}\">\r\n      <div class=\"offline-image-holder hidden\"><span class=\"fa fa-picture-o\"></span> "
+    + container.escapeExpression((helpers.T || (depth0 && depth0.T) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),"widgets.chat.message.errors.offline",{"name":"T","hash":{},"data":data}))
+    + "</div>\r\n      <img src=\"{{ auth message.file.[0] }}\" width=\"{{ message.imageWidth }}\" height=\"{{ message.imageHeight }}\" />\r\n    </div>\r\n    {{/if}}\r\n    <div class=\"chat-text\">\r\n      {{ formatMessage message.body }}\r\n    </div>\r\n  </div>\r\n</div>";
 },"useData":true});
 
 this["Fliplet"]["Widget"]["Templates"]["templates.new-conversation"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -55,10 +97,14 @@ this["Fliplet"]["Widget"]["Templates"]["templates.new-conversation"] = Handlebar
     + alias4(((helper = (helper = helpers.fullName || (depth0 != null ? depth0.fullName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fullName","hash":{},"data":data}) : helper)))
     + "</a>\r\n    </li>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
-  return "<div class=\"list-of-contacts hidden\">\r\n<h4>New conversation</h4>\r\n<p>Select contacts to start a conversation</p>\r\n\r\n<ul class=\"contacts\">\r\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.contacts : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<div class=\"list-of-contacts hidden\">\r\n<h4>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.newConversation.title",{"name":"T","hash":{},"data":data}))
+    + "</h4>\r\n<p>"
+    + alias3((helpers.T || (depth0 && depth0.T) || alias2).call(alias1,"widgets.chat.conversation.newConversation.instruction",{"name":"T","hash":{},"data":data}))
+    + "</p>\r\n\r\n<ul class=\"contacts\">\r\n"
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.contacts : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</ul>\r\n</div>\r\n";
 },"useData":true});
 

@@ -1,0 +1,191 @@
+{
+    "widgets": {
+        "chat": {
+            "title": "Messages",
+            "searchingNetwork": "<i class=\"fa fa-spinner fa-pulse\"></i> Searching for network...",
+            "loading": "Loading",
+            "copied": "Message copied",
+            "messagePlaceholder": "Type message",
+            "instruction": "To start messaging contacts tap the <i class=\"fa fa-pencil-square-o\"></i> at the top of your screen.",
+            "actions": {
+                "send": "Send",
+                "save": "Save",
+                "cancel": "Cancel"
+            },
+            "verifyAccess": {
+                "instruction": "Verify that you can access this feature. Try again by<br> pressing the <strong>Refresh</strong> button below.",
+                "actions": {
+                    "refresh": "Refresh"
+                }
+            },
+            "group": {
+                "title": "New Group",
+                "instruction": "PARTICIPANTS: <span class=\"participant-count\"></span> selected",
+                "groupNamePlaceholder": "Group name",
+                "participants": {
+                    "title": "Group",
+                    "subtitle": "Participants"
+                },
+                "actions": {
+                    "create": "Create",
+                    "back": "Back"
+                },
+                "noGroupCreated": {
+                    "title": "No group created",
+                    "message": {
+                        "noAttendees": "We couldn't find any attendees.",
+                        "noSpeakers": "We couldn't find any speakers.",
+                        "noAdmins": "We couldn't find any administrators."
+                    }
+                }
+            },
+            "channel": {
+                "successToast": {
+                    "joinSuccess": "Successfully joined channel"
+                },
+                "infoToast": {
+                  "openingChannel": "Opening channel...",
+                  "offline": {
+                      "title": "You are offline",
+                      "message": "An internet connection is necessary to join a public channel."
+                  },
+                  "joining": "Joining channel..."
+                }
+            },
+            "contacts": {
+                "instruction": "Select recipients",
+                "actions": {
+                    "cancel": "Cancel",
+                    "next": "Next",
+                    "clear": "Clear selection",
+                    "loadMore": "Load more"
+                },
+                "searchPlaceholder": "Search...",
+                "recipient": "<span class=\"count\"></span> recipient<span class=\"plural\"></span> selected",
+                "notFound": "<i class=\"fa fa-meh-o\"></i> No results found",
+                "loading": "Loading..."
+            },
+            "adminButtonGroup": {
+                "title": "Admin only groups",
+                "actions": {
+                    "all": "All attendees",
+                    "speakers": "Speakers only",
+                    "admins": "Admins only"
+                }
+            },
+            "conversation": {
+                "offline": "Your device is offline",
+                "actions": {
+                    "loadMore": "Load more",
+                    "send": "Send"
+                },
+                "errors": {
+                    "sendFailed": "Couldn't send your message. Try again!",
+                    "notFound": "Conversation not found"
+                },
+                "sendTo": "Send to",
+                "newConversation": {
+                    "title": "New conversation",
+                    "instruction": "Select contacts to start a conversation"
+                },
+                "infoToast": {
+                    "open": "Opening conversation...",
+                    "leaving": "Leaving conversation...",
+                    "deleting": "Deleting conversation...",
+                    "offline": {
+                        "title": "You are offline",
+                        "message": "An internet connection is necessary to create a conversation or group."
+                    }
+                },
+                "errorToast": {
+                    "notFound": {
+                        "title": "Conversation {{conversationId}} not found"
+                    },
+                    "leaveFailed": "Error leaving conversation",
+                    "deleteFailed": "Error deleting conversation",
+                    "createFailed": "Error creating conversation."
+                },
+                "UIActions": {
+                    "delete": {
+                      "title": "Are you sure you want to delete this conversation?",
+                      "label": "Delete"
+                    },
+                    "leave": {
+                      "title": "Are you sure you want to leave this {{label}}?",
+                      "label": "Leave"
+                    },
+                    "settings": {
+                      "title": "Notification settings"
+                    },
+                    "unmute": {
+                      "label": "Unmute"
+                    },
+                    "mute": {
+                      "label": "Mute"
+                    }
+                }
+            },
+            "tabs": {
+                "directMessages": "Direct Messages",
+                "publicChannels": "Public Channels"
+            },
+            "message": {
+                "actions": {
+                    "copy": "Copy",
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "errors": {
+                    "offline": "No internet"
+                },
+                "editSuccess": "Edited",
+                "infoToast": {
+                    "offline": {
+                        "title": "You are offline",
+                        "message": "An internet connection is necessary to delete a message."
+                    }
+                },
+                "errorToast": {
+                    "updateFailed": "Error updating the message. Please try again.",
+                    "deleteFailed": "Error deleting the message",
+                    "loadMoreFailed": "Error loading more messages",
+                    "loadFailed": "Error loading messages"
+                },
+                "UIActions": {
+                    "delete": {
+                      "title": "Are you sure you want to delete this message?",
+                      "label": "Delete",
+                      "progress": "Deleting..."
+                    }
+                }
+            },
+            "profilePhoto": {
+                "title": "How do you want to choose your image?",
+                "instruction": "Choose Image",
+                "actions": {
+                    "take": "Take Photo",
+                    "chooseExisting": "Choose Existing Photo",
+                    "cancel": "Cancel"
+                }
+            },
+            "infoToast": {
+                "offline": "You are offline",
+                "online": "You are back online",
+                "verifying": "Verifying your account..."
+            },
+            "errorToast": {
+                "connectFailed": "Cannot connect to contact list. Please check it's configured correctly.",
+                "loadFailed": "Error loading data",
+                "userNotFound": "User is not found. Please check the contacts data source.",
+                "loginFailed": "Error logging in",
+                "editNotAvailable": "Chat is not available in edit mode"
+            },
+            "errors": {
+                "unauthorized": "Please log in with your account to access the chat.",
+                "userEmailNotFound": "Cannot find user email. Please review feature configuration.",
+                "emailNotFound": "User email not found. Please make sure the user is logged in.",
+                "connectFailed": "Error connecting you to chat"
+            }
+        }
+    }
+}

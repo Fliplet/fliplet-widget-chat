@@ -1,4 +1,4 @@
-<div class="offline-note">Your device is offline</div>
+<div class="offline-note">{{ T "widgets.chat.conversation.offline" }}</div>
 <div class="empty-area"></div>
 <div class="msg-holder">
   <div class="profile-header">
@@ -15,18 +15,18 @@
   </div>
 
   <div class="msg-chats" ontouchstart="">
-    <button type="button" class="btn btn-default load-more" data-load-more>Load more</button>
+    <button type="button" class="btn btn-default load-more" data-load-more>{{ T "widgets.chat.conversation.actions.loadMore" }}</button>
     <div class="chats" data-conversation-messages></div>
   </div>
 
   <div class="input-holder" data-new-message ontouchstart="">
-    <div class="error-send">Couldn't send your message. Try again!</div>
-    <div class="sending-to">Send to: <strong>\{{ name }}</strong></div>
+    <div class="error-send">{{ T "widgets.chat.conversation.errors.sendFailed" }}</div>
+    <div class="sending-to">{{ T "widgets.chat.conversation.sendTo" }}: <strong>\{{ name }}</strong></div>
     <div class="message-input">
       <textarea class="form-control" rows="1" data-message-body></textarea>
     </div>
     <button class="message-input-btn btn btn-primary" type="button">
-      <span>Send <i class="fa fa-paper-plane"></i></span>
+      <span>{{ T "widgets.chat.conversation.actions.send" }} <i class="fa fa-paper-plane"></i></span>
       <div class="loader"><i class="fa fa-spinner"></i></div>
     </button>
   </div>
