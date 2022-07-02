@@ -15,7 +15,11 @@
     "Hammer": "readonly",
     "CodeMirror": "readonly",
     "autosize": "readonly",
-    "Raven": "readonly"
+    "Raven": "readonly",
+    "ClipboardJS": "readonly",
+    "Camera": "readonly",
+    "loadImage": "readonly",
+    "PhotoSwipe": "readonly"
   },
   "rules": {
     "no-eval": 0
