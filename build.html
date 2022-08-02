@@ -14,10 +14,24 @@
     <span data-translate="widgets.chat.loading"></span> <i class="fa fa-spinner fa-pulse"></i>
   </div>
   <div class="error-area">
-    <p data-translate="[html]widgets.chat.verifyAccess.instruction">Verify that you can access this feature. Try again by<br> pressing the <strong>Refresh</strong> button below.</p>
-    <div class="btn refresh-chat" refresh-chat data-translate="widgets.chat.verifyAccess.actions.refresh">Refresh</div>
+    <p data-translate="[html]widgets.chat.verifyAccess.instruction">
+      Verify that you can access this feature. Try again by<br />
+      pressing the <strong>Refresh</strong> button below.
+    </p>
+    <div
+      class="btn refresh-chat"
+      refresh-chat
+      data-translate="widgets.chat.verifyAccess.actions.refresh"
+    >
+      Refresh
+    </div>
   </div>
-  <div class="empty-area"><p data-translate="[html]widgets.chat.instruction">To start messaging contacts tap the <i class="fa fa-pencil-square-o"></i> at the top of your screen.</p></div>
+  <div class="empty-area">
+    <p data-translate="[html]widgets.chat.instruction">
+      To start messaging contacts tap the <i class="fa fa-pencil-square-o"></i> at the top of your
+      screen.
+    </p>
+  </div>
   <div class="chat-list">
     <!-- Conversation groups will be here -->
   </div>
@@ -43,13 +57,27 @@
         <div class="clear-image"><i class="fa fa-times"></i></div>
       </div>
       <div class="input-first-row">
-        <textarea class="form-control" rows="1" data-translate="[placeholder]widgets.chat.messagePlaceholder" placeholder="Type message" data-message-body></textarea>
+        <textarea
+          class="form-control"
+          rows="1"
+          data-translate="[placeholder]widgets.chat.messagePlaceholder"
+          placeholder="Type message"
+          data-message-body
+        ></textarea>
       </div>
       <div class="input-second-row clearfix">
         <div class="files-controls">
           <label for="image-input" class="image-button">
             <i class="fa fa-picture-o"></i>
-            <input type="file" data-file-image data-type="image" id="image-input" name="image-input" accept="image/gif, image/jpg, image/jpeg, image/tiff, image/png" class="image-input">
+            <input
+              type="file"
+              data-file-image
+              data-type="image"
+              id="image-input"
+              name="image-input"
+              accept="image/gif, image/jpg, image/jpeg, image/tiff, image/png"
+              class="image-input"
+            />
           </label>
         </div>
         <!-- FILE AND IMAGE ICONS
@@ -63,7 +91,9 @@
         -->
         <div class="btn send-button" data-translate="widgets.chat.actions.send">Send</div>
         <div class="btn send-save-button" data-translate="widgets.chat.actions.save">Save</div>
-        <div class="btn cancel-editing-button" data-translate="widgets.chat.actions.cancel">Cancel</div>
+        <div class="btn cancel-editing-button" data-translate="widgets.chat.actions.cancel">
+          Cancel
+        </div>
       </div>
     </div>
   </div>
@@ -73,9 +103,7 @@
       <div class="contacts-create-back">
         <i class="fa fa-angle-left"></i>
       </div>
-      <div class="group-info" data-translate="widgets.chat.group.title">
-        New Group
-      </div>
+      <div class="group-info" data-translate="widgets.chat.group.title">New Group</div>
       <div class="contacts-done-holder">
         <div class="btn contacts-create">
           <span data-translate="widgets.chat.group.actions.create">Create</span>
@@ -86,7 +114,12 @@
 
     <div class="group-name-wrapper">
       <div class="group-name-field-holder">
-        <input type="text" class="form-control group-name-field" data-translate="[placeholder]widgets.chat.group.groupNamePlaceholder" placeholder="Group name">
+        <input
+          type="text"
+          class="form-control group-name-field"
+          data-translate="[placeholder]widgets.chat.group.groupNamePlaceholder"
+          placeholder="Group name"
+        />
       </div>
       <div class="participants-bar" data-translate="[html]widgets.chat.group.instruction">
         PARTICIPANTS: <span class="participant-count"></span> selected
@@ -101,12 +134,19 @@
       <div class="group-participants-back icon-btn">
         <i class="fa fa-angle-left"></i>
       </div>
-      <div class="group-participants-back cancel-btn" data-translate="widgets.chat.group.actions.back">
+      <div
+        class="group-participants-back cancel-btn"
+        data-translate="widgets.chat.group.actions.back"
+      >
         Back
       </div>
       <div class="participants-holder">
-        <div class="participants-info" data-translate="widgets.chat.group.participants.title">Group</div>
-        <div class="participants-helper" data-translate="widgets.chat.group.participants.subtitle">Participants</div>
+        <div class="participants-info" data-translate="widgets.chat.group.participants.title">
+          Group
+        </div>
+        <div class="participants-helper" data-translate="widgets.chat.group.participants.subtitle">
+          Participants
+        </div>
       </div>
     </div>
 
@@ -118,9 +158,7 @@
   </div>
   <div class="contacts-holder-overlay">
     <div class="contacts-top-header">
-      <div class="contacts-back" data-translate="widgets.chat.contacts.actions.cancel">
-        Cancel
-      </div>
+      <div class="contacts-back" data-translate="widgets.chat.contacts.actions.cancel">Cancel</div>
       <div class="contacts-info" data-translate="widgets.chat.contacts.instruction">
         Select recipients
       </div>
@@ -136,7 +174,13 @@
       <div class="search-holder">
         <i class="fa fa-search"></i>
         <i class="fa fa-times"></i>
-        <input type="search" name="search-field" class="form-control search-field" data-translate="[placeholder]widgets.chat.contacts.searchPlaceholder" placeholder="Search...">
+        <input
+          type="search"
+          name="search-field"
+          class="form-control search-field"
+          data-translate="[placeholder]widgets.chat.contacts.searchPlaceholder"
+          placeholder="Search..."
+        />
       </div>
     </div>
 
@@ -145,8 +189,12 @@
     </div>
 
     <div class="selection-holder">
-      <div class="selection-count" data-translate="[html]widgets.chat.contacts.recipient"><span class="count"></span> recipient<span class="plural"></span> selected</div>
-      <div class="clear-selection" data-translate="widgets.chat.contacts.actions.clear">Clear selection</div>
+      <div class="selection-count" data-translate="[html]widgets.chat.contacts.recipient">
+        <span class="count"></span> recipient<span class="plural"></span> selected
+      </div>
+      <div class="clear-selection" data-translate="widgets.chat.contacts.actions.clear">
+        Clear selection
+      </div>
     </div>
 
     <div class="all-users-holder">
@@ -161,12 +209,11 @@
       <div class="loading-area" data-translate="widgets.chat.contacts.loading">Loading...</div>
 
       <div class="contacts-user-list">
-      <!-- Recipients list goes here -->
+        <!-- Recipients list goes here -->
       </div>
       <div class="show-more-contacts hidden" data-show-more-contacts>
         <div class="btn" data-translate="widgets.chat.contacts.actions.loadMore">Load more</div>
       </div>
     </div>
   </div>
-
 </div>
