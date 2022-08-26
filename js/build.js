@@ -1591,7 +1591,7 @@ Fliplet().then(function() {
         fileType: files ? files.fileType : undefined,
         imageWidth: files ? files.imageWidth : undefined,
         imageHeight: files ? files.imageHeight : undefined,
-        hasMediaFileWithPrivateEncryptionKey: files ? true : false,
+        hasMediaFileWithPrivateEncryptionKey: !!files,
         _flSchema: files ? files._flSchema : undefined,
         sentTime: new Date(),
         sent: false,
