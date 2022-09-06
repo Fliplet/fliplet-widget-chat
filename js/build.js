@@ -2862,7 +2862,11 @@ Fliplet().then(function() {
         var userEmail = Fliplet.Navigate.query.contactEmail;
 
         if (userId) {
-          createConversation([userId]);
+          var userIds = _.compact(_.uniq(userId.toString().split(',').map(function(id) {
+            return id.trim();
+          })));
+
+          createConversation(userIds);
           Fliplet.UI.Toast.dismiss();
         }
 
