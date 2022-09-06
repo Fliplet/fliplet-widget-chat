@@ -18,6 +18,12 @@ html.no-supports-container.native body,
   height: calc(100vh - 44px);
 }
 
+@media screen and (max-width: 640px) {
+  .supports-container .fl-with-bottom-menu .fl-widget-instance[data-name="Chat"] {
+    height: calc(100vh - 100px) !important;
+  }
+}
+
 /* Locks scroll when panel is expanded */
 .lock {
   overflow: hidden !important;
