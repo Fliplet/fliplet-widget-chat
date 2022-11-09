@@ -1,21 +1,27 @@
 html.no-supports-container.mode-interact body,
 html.no-supports-container.native body,
-.fl-widget-instance[data-name="Chat"] {
+.fl-widget-instance[data-widget-package="com.fliplet.chat"] {
   height: 100%;
 }
 
-.supports-container .fl-widget-instance[data-name="Chat"] {
+.supports-container .fl-widget-instance[data-widget-package="com.fliplet.chat"] {
 	height: 100vh;
 }
 
-.supports-container .fl-with-bottom-menu .fl-widget-instance[data-name="Chat"] {
+.supports-container .fl-with-bottom-menu .fl-widget-instance[data-widget-package="com.fliplet.chat"] {
   height: calc(100vh - 65px);
 }
 
-.supports-container .fl-with-top-menu .fl-widget-instance[data-name="Chat"],
-.supports-container .fl-with-bottom-menu.fl-bar-padding .fl-widget-instance[data-name="Chat"],
-.supports-container .fl-with-bottom-menu.fl-minimal-padding .fl-widget-instance[data-name="Chat"] {
+.supports-container .fl-with-top-menu .fl-widget-instance[data-widget-package="com.fliplet.chat"],
+.supports-container .fl-with-bottom-menu.fl-bar-padding .fl-widget-instance[data-widget-package="com.fliplet.chat"],
+.supports-container .fl-with-bottom-menu.fl-minimal-padding .fl-widget-instance[data-widget-package="com.fliplet.chat"] {
   height: calc(100vh - 44px);
+}
+
+@media screen and (max-width: 640px) {
+  .supports-container .fl-with-bottom-menu .fl-widget-instance[data-widget-package="com.fliplet.chat"] {
+    height: calc(100vh - 100px) !important;
+  }
 }
 
 /* Locks scroll when panel is expanded */

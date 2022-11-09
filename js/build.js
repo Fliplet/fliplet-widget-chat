@@ -1563,11 +1563,20 @@ Fliplet().then(function() {
       }
 
       return Promise.all(imageLoading).then(function(results) {
+        var fileData = results[0].src.split(';filename:');
+        var fileName = fileData.length === 2 && fileData[1] ? fileData[1] : 'file';
+        var _flSchema = {};
+
+        _flSchema[fileName] = {
+          encryptionKey: currentConversation.getEncryptionKey()
+        };
+
         return fileObject = {
           file: [results[0].src],
           fileType: fileType,
           imageWidth: results[0].width,
-          imageHeight: results[0].height
+          imageHeight: results[0].height,
+          _flSchema: _flSchema
         };
       }, function(err) {
         console.error(err);
@@ -1582,6 +1591,8 @@ Fliplet().then(function() {
         fileType: files ? files.fileType : undefined,
         imageWidth: files ? files.imageWidth : undefined,
         imageHeight: files ? files.imageHeight : undefined,
+        hasMediaFileWithPrivateEncryptionKey: !!files,
+        _flSchema: files ? files._flSchema : undefined,
         sentTime: new Date(),
         sent: false,
         conversationId: currentConversation.id,
@@ -2851,7 +2862,11 @@ Fliplet().then(function() {
         var userEmail = Fliplet.Navigate.query.contactEmail;
 
         if (userId) {
-          createConversation([userId]);
+          var userIds = _.compact(_.uniq(userId.toString().split(',').map(function(id) {
+            return id.trim();
+          })));
+
+          createConversation(userIds);
           Fliplet.UI.Toast.dismiss();
         }
 
