@@ -2426,7 +2426,7 @@ Fliplet().then(function() {
       }
     }
 
-    function viewConversation(conversation, isNewConversation = true) {
+    function viewConversation(conversation, isNew = true) {
       $wrapper.addClass('chat-open');
       openConversation(conversation.id);
 
@@ -2470,7 +2470,7 @@ Fliplet().then(function() {
           message.fromChannel = true;
         }
 
-        if ((!message.isDeleted || message.deletedAt === null) && isNewConversation) {
+        if ((!message.isDeleted || message.deletedAt === null) && isNew) {
           renderMessage(message);
         }
       });
