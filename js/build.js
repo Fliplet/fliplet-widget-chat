@@ -2175,7 +2175,7 @@ Fliplet().then(function() {
 
           scrollToMessageTs = 100;
           $messagesHolder.html(chatMessageGapTemplate());
-          viewConversation(newConversation);
+          viewConversation(newConversation, conversation.isNew);
         });
       }).catch(function(error) {
         $('.contacts-done-holder').removeClass('creating');
@@ -2426,7 +2426,7 @@ Fliplet().then(function() {
       }
     }
 
-    function viewConversation(conversation) {
+    function viewConversation(conversation, isNew = true) {
       $wrapper.addClass('chat-open');
       openConversation(conversation.id);
 
@@ -2470,7 +2470,7 @@ Fliplet().then(function() {
           message.fromChannel = true;
         }
 
-        if (!message.isDeleted || message.deletedAt === null) {
+        if ((!message.isDeleted || message.deletedAt === null) && isNew) {
           renderMessage(message);
         }
       });
