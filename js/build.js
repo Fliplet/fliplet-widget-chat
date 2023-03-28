@@ -2298,13 +2298,12 @@ Fliplet().then(function() {
         // Add a readable name to the conversation, based on the other people in the group
         conversations.forEach(function(conversation) {
           var participants = _.get(conversation, 'definition.participants', []);
-          var allParticipants = _.compact(_.concat(participants, _.get(conversation, 'definition.removedParticipants', [])));
 
           // Client specific
           addUsersToAdminGroups(conversation);
 
           var conversationName = _.compact(_.filter(otherPeople, function(c) {
-            return allParticipants.indexOf(c.data.flUserId) !== -1;
+            return participants.indexOf(c.data.flUserId) !== -1;
           }).map(function(c) {
             return multipleNameColumns
               ? c.data['flChatFirstName'] + ' ' + c.data['flChatLastName']
