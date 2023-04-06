@@ -481,7 +481,8 @@ html.no-supports-container.native body,
 }
 
 .chat-card-holder .chat-participants-preview,
-.chat-card-holder .chat-participants-preview + .chat-user-preview {
+.chat-card-holder .chat-participants-preview + .chat-user-preview,
+.chat-card-holder .chat-user-preview {
   -webkit-line-clamp: 1;
   word-break: break-all;
 }
