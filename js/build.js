@@ -244,11 +244,12 @@ Fliplet().then(function() {
     }
 
     function openConversation(conversationId) {
+      $chatOverlay.css({
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
+      });
+
       if (screenWidth < 640) {
-        $chatOverlay.css({
-          'transform': 'translate3d(0, 0, 0)',
-          'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
-        });
         $list.css({
           'transform': 'translate3d(-25%, 0, 0)',
           'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
@@ -642,6 +643,9 @@ Fliplet().then(function() {
                 if ( !$.trim( $('.chat-list').html() ).length ) {
                   $('.chat-holder').addClass('empty');
                 }
+
+                closeConversation();
+                getConversations(false);
               })
               .catch(function(error) {
                 Fliplet.UI.Toast.error(error, {
