@@ -645,6 +645,7 @@ Fliplet().then(function() {
                 }
 
                 closeConversation();
+                getConversations(false);
               })
               .catch(function(error) {
                 Fliplet.UI.Toast.error(error, {
