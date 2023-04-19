@@ -481,8 +481,10 @@ html.no-supports-container.native body,
 }
 
 .chat-card-holder .chat-participants-preview,
-.chat-card-holder .chat-participants-preview + .chat-user-preview {
+.chat-card-holder .chat-participants-preview + .chat-user-preview,
+.chat-card-holder .chat-user-preview {
   -webkit-line-clamp: 1;
+  word-break: break-all;
 }
 
 .contact-card.contact-selected .contact-user-preview {
@@ -1640,8 +1642,8 @@ html.no-supports-container.native body,
     position: relative;
     width: 60%;
     z-index: 1;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     padding-top: 69px;
   }
 

@@ -244,11 +244,12 @@ Fliplet().then(function() {
     }
 
     function openConversation(conversationId) {
+      $chatOverlay.css({
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
+      });
+
       if (screenWidth < 640) {
-        $chatOverlay.css({
-          'transform': 'translate3d(0, 0, 0)',
-          'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
-        });
         $list.css({
           'transform': 'translate3d(-25%, 0, 0)',
           'transition': 'all ' + ANIMATION_SPEED_SLOW + 'ms ease-out'
@@ -642,6 +643,9 @@ Fliplet().then(function() {
                 if ( !$.trim( $('.chat-list').html() ).length ) {
                   $('.chat-holder').addClass('empty');
                 }
+
+                closeConversation();
+                getConversations(false);
               })
               .catch(function(error) {
                 Fliplet.UI.Toast.error(error, {
@@ -2298,13 +2302,12 @@ Fliplet().then(function() {
         // Add a readable name to the conversation, based on the other people in the group
         conversations.forEach(function(conversation) {
           var participants = _.get(conversation, 'definition.participants', []);
-          var allParticipants = _.compact(_.concat(participants, _.get(conversation, 'definition.removedParticipants', [])));
 
           // Client specific
           addUsersToAdminGroups(conversation);
 
           var conversationName = _.compact(_.filter(otherPeople, function(c) {
-            return allParticipants.indexOf(c.data.flUserId) !== -1;
+            return participants.indexOf(c.data.flUserId) !== -1;
           }).map(function(c) {
             return multipleNameColumns
               ? c.data['flChatFirstName'] + ' ' + c.data['flChatLastName']
