@@ -153,7 +153,10 @@ Fliplet().then(function() {
       fullNameColumnName: fullNameColumnName
         ? fullNameColumnName
         : firstNameColumnName + ' ' + lastNameColumnName,
+      firstNameColumnName: firstNameColumnName,
+      lastNameColumnName: lastNameColumnName,
       avatarColumnName: avatarColumnName,
+      titleColumnName: titleColumnName,
       primaryKey: data.primaryKey
     });
 
