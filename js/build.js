@@ -153,7 +153,10 @@ Fliplet().then(function() {
       fullNameColumnName: fullNameColumnName
         ? fullNameColumnName
         : firstNameColumnName + ' ' + lastNameColumnName,
+      firstNameColumnName: firstNameColumnName,
+      lastNameColumnName: lastNameColumnName,
       avatarColumnName: avatarColumnName,
+      titleColumnName: titleColumnName,
       primaryKey: data.primaryKey
     });
 
@@ -262,6 +265,17 @@ Fliplet().then(function() {
 
       $('.chat-card-holder').removeClass('open');
       $('.chat-card-holder[data-conversation-id="' + conversationId + '"]').addClass('open');
+
+      if (Fliplet.Env.is('web')) {
+        // Construct URLSearchParams object instance from current URL querystring.
+        var queryParams = new URLSearchParams(window.location.search);
+
+        // Set new or modify existing parameter value.
+        queryParams.set('conversationId', conversationId);
+
+        // Replace current querystring with the new one.
+        history.replaceState(null, null, '?' + queryParams.toString());
+      }
     }
 
     function enterChatFullScreen() {
@@ -2214,12 +2228,32 @@ Fliplet().then(function() {
     /* Get conversations function */
     var getConversationsReqPromise;
 
+    /**
+     * Runs the beforeChatConversationsRendering hook to allow developers to modify the conversations list before rendering it
+     * @param {Array} conversations The list of conversations
+     * @returns {Promise} A promise that resolves with the modified list of conversations
+     */
+    function filterConversations(conversations) {
+      return Fliplet.Hooks.run('beforeChatConversationsRendering', {
+        conversations: conversations,
+        container: $wrapper
+      }).then(function(data) {
+        var hookData = _.first(data);
+
+        if (hookData) {
+          return hookData.conversations;
+        }
+
+        return conversations;
+      });
+    }
+
     function getConversations(fromOffline) {
       if (getConversationsReqPromise) {
         return getConversationsReqPromise;
       }
 
-      getConversationsReqPromise = chat.conversations({ offline: fromOffline }).then(function(response) {
+      getConversationsReqPromise = chat.conversations({ offline: fromOffline }).then(filterConversations).then(function(response) {
         // Set last message
         conversations = _.map(_.filter(response, { type: 'conversation' }), function(c) {
           var existingConversation = _.find(conversations, { id: c.id });

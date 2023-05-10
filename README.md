@@ -1,5 +1,22 @@
 # Fliplet Chat Widget (v2.0.0)
 
+## Development
+
+This widget is meant to be used with the Fliplet platform.
+
+Run for local development with the `fliplet-cli`:
+
+```bash
+$ cd path/to/fliplet-widget-chat
+$ fliplet run-widget
+```
+
+Notes:
+
+- **Add `type:component` to the `tags` in [widget.json](./widget.json) to make the component visible in the components list.**
+
+---
+
 ## Instance options
 
 - `dataSourceId` - the data source to use for the contacts list
@@ -67,16 +84,4 @@ Fliplet.Navigator.onReady().then(function () {
   // user not logged in
   console.warn(err);
 })
-```
-
-
-## Development
-
-This widget is meant to be used with the Fliplet platform.
-
-Run for local development with the `fliplet-cli`:
-
-```bash
-$ cd path/to/fliplet-widget-chat
-$ fliplet run-widget
 ```
