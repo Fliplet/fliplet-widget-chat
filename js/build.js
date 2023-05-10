@@ -265,6 +265,17 @@ Fliplet().then(function() {
 
       $('.chat-card-holder').removeClass('open');
       $('.chat-card-holder[data-conversation-id="' + conversationId + '"]').addClass('open');
+
+      if (Fliplet.Env.is('web')) {
+        // Construct URLSearchParams object instance from current URL querystring.
+        var queryParams = new URLSearchParams(window.location.search);
+
+        // Set new or modify existing parameter value.
+        queryParams.set('conversationId', conversationId);
+
+        // Replace current querystring with the new one.
+        history.replaceState(null, null, '?' + queryParams.toString());
+      }
     }
 
     function enterChatFullScreen() {
