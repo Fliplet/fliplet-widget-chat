@@ -11,6 +11,7 @@
     "dependencies": ["fliplet-core", "fliplet-datasources", "fliplet-studio-ui", "bootstrap"],
     "assets": ["js/interface.js", "css/interface.css"]
   },
+  "exports": ["dataSourceId", "primaryKey", "fullNameColumnName", "firstNameColumnName", "lastNameColumnName", "titleNameColumnName", "avatarColumnName"],
   "build": {
     "dependencies": [
       "moment",
