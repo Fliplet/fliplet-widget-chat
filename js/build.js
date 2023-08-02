@@ -1542,9 +1542,7 @@ Fliplet().then(function() {
             }, {
               canvas: true,
               maxWidth: maxWidth,
-              maxHeight: maxHeight,
-              // Use EXIF data to adjust rotation
-              orientation: (data.exif) ? data.exif.get('Orientation') : true
+              maxHeight: maxHeight
             }
           );
         }
