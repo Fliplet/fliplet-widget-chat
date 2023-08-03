@@ -1542,7 +1542,8 @@ Fliplet().then(function() {
             }, {
               canvas: true,
               maxWidth: maxWidth,
-              maxHeight: maxHeight
+              maxHeight: maxHeight,
+              orientation: 0
             }
           );
         }
