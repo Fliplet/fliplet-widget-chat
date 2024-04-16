@@ -2351,9 +2351,11 @@ Fliplet().then(function() {
             return participants.indexOf(p.data.flUserId) !== -1;
           });
 
+          var isFriendAvatar = friend ? friend.data[avatarColumnName] : '';
+
           conversation.isChannel = conversation.definition.group && conversation.definition.group.public;
           conversation.name = participants.length >= 2 || conversation.isChannel ? conversation.name || 'Group' : conversationName;
-          conversation.avatar = participants.length >= 2 ? '' : friend ? friend.data[avatarColumnName] : '';
+          conversation.avatar = participants.length >= 2 ? '' : isFriendAvatar;
           conversation.isGroup = !conversation.isChannel && participants.length >= 2;
           conversation.usersInConversation = conversationName;
           conversation.nParticipants = participants.length;
