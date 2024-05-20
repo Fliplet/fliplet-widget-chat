@@ -2354,7 +2354,7 @@ Fliplet().then(function() {
           var isFriendAvatar = friend ? friend.data[avatarColumnName] : '';
 
           conversation.isChannel = conversation.definition.group && conversation.definition.group.public;
-          conversation.isGroup = !conversation.isChannel && (participants.length > 2 || conversation.definition.removedParticipants && conversation.definition.removedParticipants.length !== 0);
+          conversation.isGroup = !conversation.isChannel && (participants.length > 2 || (conversation.definition.removedParticipants && conversation.definition.removedParticipants.length > 0));
           conversation.name = conversation.isGroup ? conversation.name || 'Group' : conversationName;
           conversation.avatar = participants.length > 2 ? '' : isFriendAvatar;
           conversation.usersInConversation = conversationName;
