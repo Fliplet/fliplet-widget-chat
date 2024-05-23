@@ -2354,9 +2354,9 @@ Fliplet().then(function() {
           var isFriendAvatar = friend ? friend.data[avatarColumnName] : '';
 
           conversation.isChannel = conversation.definition.group && conversation.definition.group.public;
-          conversation.isGroup = !conversation.isChannel && (participants.length > 2 || (conversation.definition.removedParticipants && conversation.definition.removedParticipants.length > 0));
-          conversation.name = conversation.isGroup ? conversation.name || 'Group' : conversationName;
-          conversation.avatar = participants.length > 2 ? '' : isFriendAvatar;
+          conversation.name = participants.length >= 2 || conversation.isChannel ? conversation.name || 'Group' : conversationName;
+          conversation.avatar = participants.length >= 2 ? '' : isFriendAvatar;
+          conversation.isGroup = !conversation.isChannel && participants.length >= 2;
           conversation.usersInConversation = conversationName;
           conversation.nParticipants = participants.length;
           conversation.absoluteTime = TD(conversation.updatedAt, { format: 'fromNow' });
