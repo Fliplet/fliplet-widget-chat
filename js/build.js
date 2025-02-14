@@ -2051,12 +2051,19 @@ Fliplet().then(function() {
 
       if (customUsers) {
         return _.filter(contacts, function(c) {
-          return c.data['flDefaultChatUser'] !== null && c.data['flDefaultChatUser'] !== '' && typeof c.data['flDefaultChatUser'] !== 'undefined' && c.data.flUserId !== currentUser.flUserId;
+          return c.data['flDefaultChatUser'] !== null
+            && c.data['flDefaultChatUser'] !== ''
+            && typeof c.data['flDefaultChatUser'] !== 'undefined'
+            && c.data.flUserId !== currentUser.flUserId
+            && c.data[crossLoginColumnName]
+            && c.data[crossLoginColumnName].trim() !== '';
         });
       }
 
-      return _.reject(contacts, function(c) {
-        return c.data.flUserId === currentUser.flUserId;
+      return _.filter(contacts, function(c) {
+        return c.data.flUserId !== currentUser.flUserId
+          && c.data[crossLoginColumnName]
+          && c.data[crossLoginColumnName].trim() !== '';
       });
     }
 
