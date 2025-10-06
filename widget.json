@@ -3,12 +3,12 @@
   "package": "com.fliplet.chat",
   "version": "2.0.0",
   "icon": "img/icon.png",
-  "tags": ["category:general"],
+  "tags": ["category:general", "type:component"],
   "provider_only": false,
   "references": ["dataSourceId:dataSource", "securityLinkAction.page:page"],
   "html_tag": "div",
   "interface": {
-    "dependencies": ["fliplet-core", "fliplet-datasources", "fliplet-studio-ui", "bootstrap"],
+    "dependencies": ["fliplet-core", "fliplet-utils", "fliplet-datasources", "fliplet-studio-ui", "bootstrap"],
     "assets": ["js/interface.js", "css/interface.css"]
   },
   "exports": ["dataSourceId", "primaryKey", "fullNameColumnName", "firstNameColumnName", "lastNameColumnName", "titleNameColumnName", "avatarColumnName"],
@@ -21,6 +21,7 @@
       "photoswipe",
       "fliplet-core",
       "fliplet-chat",
+      "fliplet-utils",
       "clipboardjs",
       "fliplet-communicate"
     ],

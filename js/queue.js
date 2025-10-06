@@ -27,11 +27,11 @@ ChatMessagesQueue.prototype.sent = function (messages) {
 };
 
 ChatMessagesQueue.prototype.getUnsent = function () {
-  return _.filter(this.messageQueue, ['sent', false]);
+  return Fliplet.Utils.filter(this.messageQueue, ['sent', false]);
 };
 
 ChatMessagesQueue.prototype.pull = function (message) {
-  _.remove(this.messageQueue, function (messageQueued) {
+  Fliplet.Utils.remove(this.messageQueue, function (messageQueued) {
     return messageQueued.guid === message.data.guid;
   });
 };
