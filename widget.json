@@ -8,7 +8,7 @@
   "references": ["dataSourceId:dataSource", "securityLinkAction.page:page"],
   "html_tag": "div",
   "interface": {
-    "dependencies": ["fliplet-core", "fliplet-datasources", "fliplet-studio-ui", "bootstrap"],
+    "dependencies": ["fliplet-core", "fliplet-datasources", "fliplet-studio-ui", "bootstrap", "lodash"],
     "assets": ["js/interface.js", "css/interface.css"]
   },
   "exports": ["dataSourceId", "primaryKey", "fullNameColumnName", "firstNameColumnName", "lastNameColumnName", "titleNameColumnName", "avatarColumnName"],
@@ -22,6 +22,7 @@
       "fliplet-core",
       "fliplet-chat",
       "clipboardjs",
+      "lodash",
       "fliplet-communicate"
     ],
     "assets": [
