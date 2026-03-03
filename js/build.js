@@ -316,12 +316,12 @@ Fliplet().then(function() {
     }
 
     function openGroupParticipantsPanel() {
-      var participantsIds = _.get(currentConversation, 'definition.participants', []);
+      var participantsIds = Fliplet.Utils.get(currentConversation, 'definition.participants', []);
       var participants = [];
-      var participants = _.filter(contacts, function(contact) {
+      var participants = Fliplet.Utils.filter(contacts, function(contact) {
         return participantsIds.indexOf(contact.data.flUserId) > -1;
       });
-      var participantsData = _.map(participants, function(participant) {
+      var participantsData = Fliplet.Utils.map(participants, function(participant) {
         return {
           id: participant.id,
           userImage: avatarColumnName ? participant.data[avatarColumnName] : '',
@@ -453,7 +453,7 @@ Fliplet().then(function() {
     }
 
     function removeContactSelectedByIcon(element, userId) {
-      _.remove(contactsSelected, function(obj) {
+        Fliplet.Utils.remove(contactsSelected, function(obj) {
         return obj.id === userId;
       });
 
@@ -504,7 +504,7 @@ Fliplet().then(function() {
           scrollLeft: totalWidth
         }, 200, 'swing');
       } else {
-        _.remove(contactsSelected, function(obj) {
+        Fliplet.Utils.remove(contactsSelected, function(obj) {
           return obj.id === userId;
         });
 
@@ -549,7 +549,7 @@ Fliplet().then(function() {
         messageToEdit = undefined;
 
         // Update conversation UI
-        var conversationMessages = _.filter(messages, { dataSourceId: currentConversation.id });
+        var conversationMessages = Fliplet.Utils.filter(messages, { dataSourceId: currentConversation.id });
 
         setConversationLastMessage(currentConversation, conversationMessages[conversationMessages.length - 1]);
         renderConversations(currentConversation, true);
@@ -569,15 +569,15 @@ Fliplet().then(function() {
       Fliplet.DataSources.connect(currentConversation.id).then(function(connection) {
         connection.removeById(messageId).then(function onRemove() {
           // Remove from local messages array
-          _.remove(messages, function(obj) {
+          Fliplet.Utils.remove(messages, function(obj) {
             return obj.id === messageId;
           });
 
-          _.remove(messagesIds, function(id) {
+          Fliplet.Utils.remove(messagesIds, function(id) {
             return id === messageId;
           });
 
-          var conversationMessages = _.filter(messages, { dataSourceId: currentConversation.id });
+          var conversationMessages = Fliplet.Utils.filter(messages, { dataSourceId: currentConversation.id });
 
           messageHolder.remove();
           setConversationLastMessage(currentConversation, conversationMessages[conversationMessages.length - 1]);
@@ -592,7 +592,7 @@ Fliplet().then(function() {
 
     function muteConversation(conversationId) {
       toggleNotifications(conversationId).then(function() {
-        var conversation = _.find(conversations, function(c) { return c.id === conversationId; });
+        var conversation = Fliplet.Utils.find(conversations, function(c) { return c.id === conversationId; });
 
         renderConversations(conversation, true);
 
@@ -607,9 +607,9 @@ Fliplet().then(function() {
       var groupLabel = isChannel ? 'channel' : 'group';
       var isChannelOrGroup = isGroup || isChannel;
 
-      messages = _.filter(messages, function(message) {
+      messages = Fliplet.Utils.filter(messages, function(message) {
         if (message.data.conversationId === conversationId) {
-          _.remove(messagesIds, function(id) {
+          Fliplet.Utils.remove(messagesIds, function(id) {
             return id === message.id;
           });
         }
@@ -625,7 +625,7 @@ Fliplet().then(function() {
           label: isChannelOrGroup ? T('widgets.chat.conversation.UIActions.leave.label') : T('widgets.chat.conversation.UIActions.delete.label'),
           action: function() {
             // Get the conversation
-            var conversationToBeRemoved = _.find(conversations, { id: conversationId });
+            var conversationToBeRemoved = Fliplet.Utils.find(conversations, { id: conversationId });
 
             if (!conversationToBeRemoved) {
               return Fliplet.UI.Toast.error(T('widgets.chat.conversation.errorToast.notFound.title', { conversationId: conversationId }), {
@@ -639,7 +639,7 @@ Fliplet().then(function() {
             return conversationToBeRemoved.participants.remove(userToRemove.id)
               .then(function() {
                 // Remove the conversation from the stored list
-                _.remove(conversations, function(conversation) {
+                Fliplet.Utils.remove(conversations, function(conversation) {
                   return conversation.id === conversationId;
                 });
 
@@ -672,7 +672,7 @@ Fliplet().then(function() {
     }
 
     function toggleNotifications(conversationId) {
-      var conversation = _.find(conversations, { id: conversationId });
+      var conversation = Fliplet.Utils.find(conversations, { id: conversationId });
 
       if (!conversation) {
         return Promise.reject(T('widgets.chat.conversation.errors.notFound'));
@@ -843,7 +843,7 @@ Fliplet().then(function() {
 
     function createNewChatGroup() {
       var groupName = $('.group-name-field').val();
-      var userIds = _.map(contactsSelected, function(el) { return el.id; });
+      var userIds = Fliplet.Utils.map(contactsSelected, function(el) { return el.id; });
 
       $('.contacts-done-holder').addClass('creating');
 
@@ -884,7 +884,7 @@ Fliplet().then(function() {
       if (contactsSelected.length === 1) {
         $('.contacts-done-holder').addClass('creating');
 
-        var userIds = _.map(contactsSelected, function(el) { return el.id; });
+        var userIds = Fliplet.Utils.map(contactsSelected, function(el) { return el.id; });
 
         createConversation(userIds);
 
@@ -1014,7 +1014,7 @@ Fliplet().then(function() {
             enterChatFullScreen();
 
             var id = $(this).data('conversation-id');
-            var conversation = _.find(conversations, { id: id });
+            var conversation = Fliplet.Utils.find(conversations, { id: id });
 
             scrollToMessageTs = 100;
             $messagesHolder.html(chatMessageGapTemplate());
@@ -1023,7 +1023,7 @@ Fliplet().then(function() {
         })
         .on('click', '.contacts-user-list .contact-card', function() {
           var targetId = $(this).data('contact-id');
-          var selectedInfo = _.filter(getCurrentContactsList(), function(o) { return o.id === targetId; });
+          var selectedInfo = Fliplet.Utils.filter(getCurrentContactsList(), function(o) { return o.id === targetId; });
 
           if (allowClick) {
             if (isViewingChannels) {
@@ -1715,7 +1715,7 @@ Fliplet().then(function() {
       $('.contacts-user-list').html('');
 
       // Searches
-      var searchedData = _.filter(getCurrentContactsList(), function(obj) {
+      var searchedData = Fliplet.Utils.filter(getCurrentContactsList(), function(obj) {
         var userName = '';
 
         if (fullNameColumnName && obj.data['flChatFullName']) {
@@ -1815,7 +1815,7 @@ Fliplet().then(function() {
     /* CHAT FEATURE FUNCTIONS */
     function sortContacts(peopleList, fromSearch) {
       // Custom sort of names
-      var customSorted = _.sortBy(peopleList, function(obj) {
+      var customSorted = Fliplet.Utils.sortBy(peopleList, function(obj) {
         obj.data['customSortName'] = obj.data['flChatFullName'] || obj.data['flChatFirstName'] || '';
 
         var value = obj.data['customSortName'].toString().toUpperCase();
@@ -1827,7 +1827,7 @@ Fliplet().then(function() {
           : '{' + value;
       });
 
-      otherPeopleSorted = _.orderBy(customSorted, function(obj) {
+      otherPeopleSorted = Fliplet.Utils.orderBy(customSorted, function(obj) {
         var value = obj.data['customSortName'].toString();
         var nameArray = value.split(' ');
         var foundCapital = 0;
@@ -1910,8 +1910,8 @@ Fliplet().then(function() {
 
       $('.show-more-contacts').addClass('hidden');
 
-      var pinnedContacts = _.remove(listOfPeople, function(contact) {
-        return !!_.get(contact, 'data.isPinned');
+      var pinnedContacts = Fliplet.Utils.remove(listOfPeople, function(contact) {
+        return !!Fliplet.Utils.get(contact, 'data.isPinned');
       });
 
       if (data.limitContacts && data.howManyEntriesToShow && !fromSearch && !isViewingChannels) {
@@ -1919,10 +1919,10 @@ Fliplet().then(function() {
       }
 
       // Groups people by initial
-      var peopleGroupedByLetter = _.groupBy(entriesToShow, function(obj) { return obj.letterGroup; });
+      var peopleGroupedByLetter = Fliplet.Utils.groupBy(entriesToShow, function(obj) { return obj.letterGroup; });
 
       if (pinnedContacts.length) {
-        peopleGroupedByLetter = _.extend({
+        peopleGroupedByLetter = Fliplet.Utils.extend({
           'Pinned': pinnedContacts
         }, peopleGroupedByLetter);
       }
@@ -1975,7 +1975,7 @@ Fliplet().then(function() {
     }
 
     function findContact(flUserId) {
-      return _.find(contacts, function(contact) {
+      return Fliplet.Utils.find(contacts, function(contact) {
         return contact.data.flUserId === flUserId;
       });
     }
@@ -1991,13 +1991,13 @@ Fliplet().then(function() {
     }
 
     function normalizeData(users) {
-      return _.compact(users.map(function(user) {
+      return Fliplet.Utils.compact(users.map(function(user) {
         user.data.flChatFirstName = user.data[firstNameColumnName] || '';
         user.data.flChatLastName = user.data[lastNameColumnName] || '';
         user.data.flChatFullName = user.data[fullNameColumnName] || '';
 
         if (avatarColumnName && Array.isArray(user.data[avatarColumnName])) {
-          user.data[avatarColumnName] = _.first(user.data[avatarColumnName]);
+          user.data[avatarColumnName] = Fliplet.Utils.first(user.data[avatarColumnName]);
         }
 
         // Filter profiles without a name
@@ -2050,7 +2050,7 @@ Fliplet().then(function() {
       });
 
       if (customUsers) {
-        return _.filter(contacts, function(c) {
+        return Fliplet.Utils.filter(contacts, function(c) {
           return c.data['flDefaultChatUser'] !== null
             && c.data['flDefaultChatUser'] !== ''
             && typeof c.data['flDefaultChatUser'] !== 'undefined'
@@ -2060,7 +2060,7 @@ Fliplet().then(function() {
         });
       }
 
-      return _.filter(contacts, function(c) {
+      return Fliplet.Utils.filter(contacts, function(c) {
         return c.data.flUserId !== currentUser.flUserId
           && c.data[crossLoginColumnName]
           && c.data[crossLoginColumnName].trim() !== '';
@@ -2079,7 +2079,7 @@ Fliplet().then(function() {
 
     function getSpeakers() {
       var userIds = [];
-      var speakersOnly = _.filter(otherPeople, function(attendee) {
+      var speakersOnly = Fliplet.Utils.filter(otherPeople, function(attendee) {
         return attendee.data.Speakers && attendee.data.Speakers !== '' && attendee.data.Speakers !== null;
       });
 
@@ -2092,7 +2092,7 @@ Fliplet().then(function() {
 
     function getAdmins() {
       var userIds = [];
-      var adminsOnly = _.filter(otherPeople, function(attendee) {
+      var adminsOnly = Fliplet.Utils.filter(otherPeople, function(attendee) {
         return attendee.data.isAdmin && attendee.data.isAdmin !== '' && attendee.data.isAdmin !== null;
       });
 
@@ -2195,7 +2195,7 @@ Fliplet().then(function() {
           closeGroupCreationSettings();
           closeContacts();
 
-          var newConversation = _.find(conversations, { id: conversation.id });
+          var newConversation = Fliplet.Utils.find(conversations, { id: conversation.id });
 
           scrollToMessageTs = 100;
           $messagesHolder.html(chatMessageGapTemplate());
@@ -2212,19 +2212,19 @@ Fliplet().then(function() {
 
     function addUsersToAdminGroups(conversation) {
       // Adds new users to admin groups
-      if (_.get(conversation, 'definition.participants.type') && _.get(conversation, 'definition.participants.type') === 'Attendees') {
+      if (Fliplet.Utils.get(conversation, 'definition.participants.type') && Fliplet.Utils.get(conversation, 'definition.participants.type') === 'Attendees') {
         var userIds = getAllUSers();
 
         conversation.participants.add(userIds);
       }
 
-      if (_.get(conversation, 'definition.participants.type') && _.get(conversation, 'definition.participants.type') === 'Speakers') {
+      if (Fliplet.Utils.get(conversation, 'definition.participants.type') && Fliplet.Utils.get(conversation, 'definition.participants.type') === 'Speakers') {
         var userIds = getSpeakers();
 
         conversation.participants.add(userIds);
       }
 
-      if (_.get(conversation, 'definition.participants.type') && _.get(conversation, 'definition.participants.type') === 'Admins') {
+      if (Fliplet.Utils.get(conversation, 'definition.participants.type') && Fliplet.Utils.get(conversation, 'definition.participants.type') === 'Admins') {
         var userIds = getAdmins();
 
         conversation.participants.add(userIds);
@@ -2244,7 +2244,7 @@ Fliplet().then(function() {
         conversations: conversations,
         container: $wrapper
       }).then(function(data) {
-        var hookData = _.first(data);
+        var hookData = Fliplet.Utils.first(data);
 
         if (hookData) {
           return hookData.conversations;
@@ -2261,8 +2261,8 @@ Fliplet().then(function() {
 
       getConversationsReqPromise = chat.conversations({ offline: fromOffline }).then(filterConversations).then(function(response) {
         // Set last message
-        conversations = _.map(_.filter(response, { type: 'conversation' }), function(c) {
-          var existingConversation = _.find(conversations, { id: c.id });
+        conversations = Fliplet.Utils.map(Fliplet.Utils.filter(response, { type: 'conversation' }), function(c) {
+          var existingConversation = Fliplet.Utils.find(conversations, { id: c.id });
 
           if (existingConversation) {
             c.unreadMessages = 0;
@@ -2273,7 +2273,7 @@ Fliplet().then(function() {
         });
 
         // Get unread messages
-        var unreadMessages = _.reject(messages, function(m) {
+        var unreadMessages = Fliplet.Utils.reject(messages, function(m) {
           return m.isReadByCurrentUser;
         }).map(function(message) {
           return message;
@@ -2312,8 +2312,8 @@ Fliplet().then(function() {
           }
 
           channels = result.map(function(channel) {
-            var participants = _.get(channel, 'definition.participants', []);
-            var showWhenEmpty = _.get(channel, 'definition.showWhenEmpty', true);
+            var participants = Fliplet.Utils.get(channel, 'definition.participants', []);
+            var showWhenEmpty = Fliplet.Utils.get(channel, 'definition.showWhenEmpty', true);
 
             if (!participants.length && !showWhenEmpty) {
               return;
@@ -2332,7 +2332,7 @@ Fliplet().then(function() {
               }
             };
           });
-          channels = _.compact(channels);
+          channels = Fliplet.Utils.compact(channels);
 
           $('.predefined-groups-holder').html(groupTabsTemplate({
             channels: channels
@@ -2341,12 +2341,12 @@ Fliplet().then(function() {
 
         // Add a readable name to the conversation, based on the other people in the group
         conversations.forEach(function(conversation) {
-          var participants = _.get(conversation, 'definition.participants', []);
+          var participants = Fliplet.Utils.get(conversation, 'definition.participants', []);
 
           // Client specific
           addUsersToAdminGroups(conversation);
 
-          var conversationName = _.compact(_.filter(otherPeople, function(c) {
+          var conversationName = Fliplet.Utils.compact(Fliplet.Utils.filter(otherPeople, function(c) {
             return participants.indexOf(c.data.flUserId) !== -1;
           }).map(function(c) {
             return multipleNameColumns
@@ -2354,7 +2354,7 @@ Fliplet().then(function() {
               : c.data['flChatFullName'];
           })).join(', ').trim();
 
-          var friend = _.find(otherPeople, function(p) {
+          var friend = Fliplet.Utils.find(otherPeople, function(p) {
             return participants.indexOf(p.data.flUserId) !== -1;
           });
 
@@ -2368,14 +2368,14 @@ Fliplet().then(function() {
           conversation.nParticipants = participants.length;
           conversation.absoluteTime = TD(conversation.updatedAt, { format: 'fromNow' });
 
-          var conversationMessages = _.filter(messages, { dataSourceId: conversation.id });
+          var conversationMessages = Fliplet.Utils.filter(messages, { dataSourceId: conversation.id });
 
           setConversationLastMessage(conversation, conversationMessages[conversationMessages.length - 1]);
         });
 
         $conversationsList.html('');
 
-        var conversationGroups = _.groupBy(conversations, function(obj) { return obj.absoluteTime; });
+        var conversationGroups = Fliplet.Utils.groupBy(conversations, function(obj) { return obj.absoluteTime; });
 
         renderConversations(conversationGroups);
 
@@ -2420,8 +2420,8 @@ Fliplet().then(function() {
     }
 
     function loadMoreMessagesForCurrentConversation(conversation, isLoadingAll) {
-      var conversationMessages = _.filter(messages, { dataSourceId: conversation.id });
-      var firstMessage = _.minBy(conversationMessages, 'createdAt');
+      var conversationMessages = Fliplet.Utils.filter(messages, { dataSourceId: conversation.id });
+      var firstMessage = Fliplet.Utils.minBy(conversationMessages, 'createdAt');
 
       var where = {};
 
@@ -2466,7 +2466,7 @@ Fliplet().then(function() {
     }
 
     function checkConversationStatus(conversation) {
-      if (_.get(conversation, 'definition.participants', []).length < 2) {
+      if (Fliplet.Utils.get(conversation, 'definition.participants', []).length < 2) {
         getConversations(false);
       }
     }
@@ -2504,7 +2504,7 @@ Fliplet().then(function() {
 
       $messages = $wrapper.find('[data-conversation-messages]');
 
-      var conversationMessages = _.filter(messages, { dataSourceId: conversation.id });
+      var conversationMessages = Fliplet.Utils.filter(messages, { dataSourceId: conversation.id });
 
       conversationMessages.forEach(function(message) {
         if (conversation.isGroup) {
@@ -2801,7 +2801,7 @@ Fliplet().then(function() {
             renderMessage(message);
           }
 
-          var conversation = _.find(conversations, { id: message.dataSourceId });
+          var conversation = Fliplet.Utils.find(conversations, { id: message.dataSourceId });
 
           if (!conversation) {
             // If we don't find the conversation of this message, most likely means a user just
@@ -2868,7 +2868,7 @@ Fliplet().then(function() {
         return Fliplet.Hooks.run('flChatBeforeGetUserEmail', options).then(function() {
           return Fliplet.User.getCachedSession();
         }).then(function(session) {
-          email = _.get(session, ['entries', 'dataSource', 'data', (options.crossLoginColumnName || crossLoginColumnName)]);
+          email = Fliplet.Utils.get(session, ['entries', 'dataSource', 'data', (options.crossLoginColumnName || crossLoginColumnName)]);
 
           if (!email) {
             return Promise.reject(T('widgets.chat.errors.emailNotFound'));
@@ -2881,7 +2881,7 @@ Fliplet().then(function() {
 
     function redirectToLogin() {
       return Fliplet.Hooks.run('flChatBeforeRedirectToLogin', securityScreenAction).then(function() {
-        if (!_.get(securityScreenAction, 'page')) {
+        if (!Fliplet.Utils.get(securityScreenAction, 'page')) {
           return Fliplet.App.Storage.remove('fl_enforce_user_data').then(Fliplet.Navigate.toDefault);
         }
 
@@ -2907,7 +2907,7 @@ Fliplet().then(function() {
         var userEmail = Fliplet.Navigate.query.contactEmail;
 
         if (userId) {
-          var userIds = _.compact(_.uniq(userId.toString().split(',').map(function(id) {
+          var userIds = Fliplet.Utils.compact(Fliplet.Utils.uniq(userId.toString().split(',').map(function(id) {
             return id.trim();
           })));
 
@@ -2920,7 +2920,7 @@ Fliplet().then(function() {
 
         getContacts(false).then(function() {
           if (userEmail) {
-            var user = _.find(otherPeople, function(user) {
+            var user = Fliplet.Utils.find(otherPeople, function(user) {
               return user.data[data.primaryKey] === userEmail;
             });
 
@@ -2941,7 +2941,7 @@ Fliplet().then(function() {
           var conversationId = Fliplet.Navigate.query.conversationId;
 
           if (conversationId) {
-            var conversation = _.find(conversations, { id: parseInt(conversationId, 10) });
+            var conversation = Fliplet.Utils.find(conversations, { id: parseInt(conversationId, 10) });
 
             if (conversation) {
               viewConversation(conversation);
