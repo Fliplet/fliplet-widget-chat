@@ -2199,7 +2199,7 @@ Fliplet().then(function() {
 
           scrollToMessageTs = 100;
           $messagesHolder.html(chatMessageGapTemplate());
-          viewConversation(newConversation, conversation.isNew);
+          viewConversation(newConversation);
         });
       }).catch(function(error) {
         $('.contacts-done-holder').removeClass('creating');
@@ -2471,7 +2471,7 @@ Fliplet().then(function() {
       }
     }
 
-    function viewConversation(conversation, isNew = true) {
+    function viewConversation(conversation) {
       $wrapper.addClass('chat-open');
       openConversation(conversation.id);
 
@@ -2515,7 +2515,8 @@ Fliplet().then(function() {
           message.fromChannel = true;
         }
 
-        if ((!message.isDeleted || message.deletedAt === null) && isNew) {
+        // PS-2123: render history unconditionally; restored conversations arrive with existing data
+        if (!message.isDeleted || message.deletedAt === null) {
           renderMessage(message);
         }
       });
@@ -2581,6 +2582,11 @@ Fliplet().then(function() {
     }
 
     function renderMessage(message, prepend) {
+      // PS-2123: skip messages already in the DOM, e.g. when the poll re-emits rendered history
+      if ($('[data-message-id="' + message.id + '"]').length) {
+        return;
+      }
+
       if (scrollToMessageTimeout) {
         clearTimeout(scrollToMessageTimeout);
         scrollToMessageTimeout = undefined;
