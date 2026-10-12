@@ -324,7 +324,8 @@ Fliplet().then(function() {
       var participantsData = Fliplet.Utils.map(participants, function(participant) {
         return {
           id: participant.id,
-          userImage: avatarColumnName ? participant.data[avatarColumnName] : '',
+          // PS-2318: '' not undefined, or url() requests "<page>/undefined" (404)
+          userImage: (avatarColumnName && participant.data[avatarColumnName]) || '',
           userName: !multipleNameColumns
             ? participant.data['flChatFullName']
             : participant.data['flChatFirstName'] + ' ' + participant.data['flChatLastName'],
@@ -481,7 +482,8 @@ Fliplet().then(function() {
       var $selectedUsers = $('.show-selected-users');
       var selectedUserData = {
         id: selectedUserInfo[0].id,
-        userImage: avatarColumnName ? selectedUserInfo[0].data[avatarColumnName] : '',
+        // PS-2318: '' not undefined, or url() requests "<page>/undefined" (404)
+        userImage: (avatarColumnName && selectedUserInfo[0].data[avatarColumnName]) || '',
         userName: !multipleNameColumns
           ? selectedUserInfo[0].data['flChatFullName']
           : selectedUserInfo[0].data['flChatFirstName'] + ' ' + selectedUserInfo[0].data['flChatLastName']
@@ -2197,6 +2199,12 @@ Fliplet().then(function() {
 
           var newConversation = Fliplet.Utils.find(conversations, { id: conversation.id });
 
+          // PS-2318: this user's list doesn't have the new conversation (the
+          // chat user changed since Chat loaded). Say so rather than open nothing
+          if (!newConversation) {
+            return Promise.reject(T('widgets.chat.conversation.errorToast.notFound.title', { conversationId: conversation.id }));
+          }
+
           scrollToMessageTs = 100;
           $messagesHolder.html(chatMessageGapTemplate());
           viewConversation(newConversation, conversation.isNew);
@@ -2358,7 +2366,8 @@ Fliplet().then(function() {
             return participants.indexOf(p.data.flUserId) !== -1;
           });
 
-          var isFriendAvatar = friend ? friend.data[avatarColumnName] : '';
+          // PS-2318: '' not undefined, or url() requests "<page>/undefined" (404)
+          var isFriendAvatar = (friend && friend.data[avatarColumnName]) || '';
 
           conversation.isChannel = conversation.definition.group && conversation.definition.group.public;
           conversation.isGroup = !conversation.isChannel && (participants.length > 2 || (conversation.definition.removedParticipants && conversation.definition.removedParticipants.length > 0));
@@ -2616,7 +2625,7 @@ Fliplet().then(function() {
           name: multipleNameColumns
             ? sender.data['flChatFirstName'] + ' ' + sender.data['flChatLastName']
             : sender.data['flChatFullName'],
-          avatar: sender.data[avatarColumnName],
+          avatar: sender.data[avatarColumnName] || '', // PS-2318: no "<page>/undefined" request
           message: message.data,
           timeAgo: message.createdAtDate.calendar(null, {
             sameDay: 'HH:mm',
@@ -2682,7 +2691,7 @@ Fliplet().then(function() {
           name: multipleNameColumns
             ? sender.data['flChatFirstName'] + ' ' + sender.data['flChatLastName']
             : sender.data['flChatFullName'],
-          avatar: sender.data[avatarColumnName],
+          avatar: sender.data[avatarColumnName] || '', // PS-2318: no "<page>/undefined" request
           message: message.data,
           timeAgo: message.createdAtDate.calendar(null, {
             sameDay: 'HH:mm',
