@@ -2995,6 +2995,14 @@ Fliplet().then(function() {
       });
     }
 
+    // A failed request that may work when tried again: no connection (0),
+    // too many requests (429) or a server error (5xx)
+    function isTemporaryError(error) {
+      var status = error && error.status;
+
+      return typeof status === 'number' && (status === 0 || status === 429 || status >= 500);
+    }
+
     function attemptLogin(offline) {
       var notLoggedInErrorMessage = T('widgets.chat.errors.unauthorized');
       var allowOffline = typeof offline === 'undefined' ? true : offline;
@@ -3028,6 +3036,13 @@ Fliplet().then(function() {
           }
 
           return chat.login({ flUserToken: flUserToken }, { offline: true }).catch(function(err) {
+            // PS-2318: login now always asks the server when online. Keep the
+            // token when the server could not be reached or was busy, so the
+            // user isn't sent to the login screen next time
+            if (isTemporaryError(err)) {
+              return Promise.reject(err);
+            }
+
             return Fliplet.App.Storage.remove(USERTOKEN_STORAGE_KEY).then(function() {
               return Promise.reject(err);
             });
